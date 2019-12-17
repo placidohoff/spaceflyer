@@ -1,0 +1,11 @@
+0 - 9 		(Handgun Idle)
+12 - 23		(Handgun Swing)
+24 - 26		(Handgun Shoot)
+36 - 45		(Handgun Reload)
+48 - 58		(Knife Swing)
+60 - 66
+72 - 81
+84 - 92
+96 - 105
+108 - 
+120

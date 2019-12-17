@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://phaser.io/examples/v2/category/text -->
+<html lang="en" class="wf-freightsanspro-n4-active wf-freightsanspro-i4-active wf-freightsanspro-n7-active wf-freightsanspro-i7-active wf-freightsanspro-n5-active wf-freightsanspro-i5-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Phaser - Examples - Text</title>
+        <meta name="author" content="Photon Storm - photonstorm.com">
+        <meta name="description" content="Desktop and Mobile HTML5 game framework. A fast, free and fun open source framework for Canvas and WebGL powered browser games.">
+        <meta name="keywords" content="phaser, html5, games, framework, library, canvas, webgl, animation, sprites, physics, audio, collision">
+        <meta itemprop="name" content="Phaser - Examples - Text">
+        <meta itemprop="description" content="Desktop and Mobile HTML5 game framework. A fast, free and fun open source framework for Canvas and WebGL powered browser games.">
+        <meta itemprop="image" content="http://phaser.test/images/block1280.jpg">
+        <meta property="og:url" content="http://phaser.io">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Phaser - Examples - Text">
+        <meta property="og:description" content="Desktop and Mobile HTML5 game framework. A fast, free and fun open source framework for Canvas and WebGL powered browser games.">
+        <meta property="og:image" content="http://phaser.test/images/block1280.jpg">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Phaser - Examples - Text">
+        <meta name="twitter:description" content="Desktop and Mobile HTML5 game framework. A fast, free and fun open source framework for Canvas and WebGL powered browser games.">
+        <meta name="twitter:image" content="http://phaser.test/images/block1280.jpg">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="monetization" content="$pay.stronghold.co/1a191e0d01993a14da1a50127498648410f">
+        <link rel="shortcut icon" href="https://phaser.io/favicon.ico">
+        <link rel="stylesheet" href="./Phaser - Examples - Text_files/phaser.css" type="text/css" media="all">
+        <link rel="stylesheet" href="./Phaser - Examples - Text_files/prettify.css" type="text/css">
+        <link rel="stylesheet" href="./Phaser - Examples - Text_files/octicons.css" type="text/css">
+        <link rel="stylesheet" href="./Phaser - Examples - Text_files/carbon.css" type="text/css">
+        <link rel="stylesheet" href="./Phaser - Examples - Text_files/newsletter.css" type="text/css">
+        <!--[if lt IE 9]><link rel="stylesheet" href="https://phaser.io/css/wtf-ie.css" type="text/css" media="all" /><![endif]-->
+
+        <link rel="pingback" href="http://jquery.com/xmlrpc.php">
+        <script type="text/javascript" async="" src="./Phaser - Examples - Text_files/linkid.js.download"></script><script async="" src="./Phaser - Examples - Text_files/analytics.js.download"></script><script async="" src="./Phaser - Examples - Text_files/gtm.js.download"></script><script type="text/javascript" src="./Phaser - Examples - Text_files/prettify.js.download"></script>
+        <script type="text/javascript" src="./Phaser - Examples - Text_files/jquery-2.0.3.min.js.download"></script>
+        <script type="text/javascript" src="./Phaser - Examples - Text_files/jquery.main.js.download"></script>
+        <script src="./Phaser - Examples - Text_files/fmc0gtt.js.download"></script>
+        <style type="text/css">.tk-freight-sans-pro{font-family:"freight-sans-pro",sans-serif;}</style><style type="text/css">@font-face{font-family:freight-sans-pro;src:url(https://use.typekit.net/af/442215/000000000000000000010b5a/27/l?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/442215/000000000000000000010b5a/27/d?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/442215/000000000000000000010b5a/27/a?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:freight-sans-pro;src:url(https://use.typekit.net/af/3df5fe/000000000000000000010b5b/27/l?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/3df5fe/000000000000000000010b5b/27/d?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/3df5fe/000000000000000000010b5b/27/a?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:freight-sans-pro;src:url(https://use.typekit.net/af/1709eb/000000000000000000010b60/27/l?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/1709eb/000000000000000000010b60/27/d?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/1709eb/000000000000000000010b60/27/a?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}@font-face{font-family:freight-sans-pro;src:url(https://use.typekit.net/af/65fc7d/000000000000000000010b61/27/l?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i7&v=3) format("woff2"),url(https://use.typekit.net/af/65fc7d/000000000000000000010b61/27/d?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i7&v=3) format("woff"),url(https://use.typekit.net/af/65fc7d/000000000000000000010b61/27/a?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i7&v=3) format("opentype");font-weight:700;font-style:italic;}@font-face{font-family:freight-sans-pro;src:url(https://use.typekit.net/af/8dd886/000000000000000000010b5c/27/l?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n5&v=3) format("woff2"),url(https://use.typekit.net/af/8dd886/000000000000000000010b5c/27/d?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n5&v=3) format("woff"),url(https://use.typekit.net/af/8dd886/000000000000000000010b5c/27/a?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=n5&v=3) format("opentype");font-weight:500;font-style:normal;}@font-face{font-family:freight-sans-pro;src:url(https://use.typekit.net/af/441f33/000000000000000000010b5d/27/l?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i5&v=3) format("woff2"),url(https://use.typekit.net/af/441f33/000000000000000000010b5d/27/d?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i5&v=3) format("woff"),url(https://use.typekit.net/af/441f33/000000000000000000010b5d/27/a?primer=fff1a989570eb474b8c22c57cc7199e63bfc7e911b750165d0199218f0b7e7cc&fvd=i5&v=3) format("opentype");font-weight:500;font-style:italic;}</style><script>try{Typekit.load();}catch(e){}</script>
+        <!--[if IE]><script type="text/javascript" src="https://phaser.io/js/ie.js"></script><![endif]-->
+
+        <style type="text/css">
+            #donateBanner {
+                background: url(/images/strip.png) repeat-x;
+                height: 66px;
+            }
+
+            #donateBanner div {
+                padding-top: 16px;
+            }
+
+            #donateBanner a {
+                color: black;
+                text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.75);
+            }
+        </style>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N8HSM6T');</script>
+<!-- End Google Tag Manager -->
+    <script id="_carbonads_projs" type="text/javascript" src="./Phaser - Examples - Text_files/CKYI5KQN.json"></script><style type="text/css">.cm-product-widget{display:block;position:relative;width:100%;max-width:580px;min-width:120px;height:auto;overflow:hidden;margin:0;padding:0;background:transparent;font:14px/18px Helvetica Neue,Helvetica,Arial,sans-serif!important;color:#383836;border-radius:3px;box-shadow:0 1px 3px rgba(1,1,1,.2);-webkit-font-smoothing:antialiased}.cm-product-widget *{box-sizing:border-box}.cm-product-widget [data-cm-href]:hover{cursor:pointer}.cm-product-imgWrapper{position:relative;display:block;margin:0;padding:0;transition:all .2s ease-in-out;color:#fff}.cm-product-imgWrapper:hover .cm-product-imgOverlay{opacity:1}.cm-product-img{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;height:auto!important;max-height:none!important;min-height:0!important;vertical-align:top!important;position:static!important;pointer-events:none!important;outline:none!important;margin:0!important;padding:0!important;float:none!important;color:#383836!important;border:none!important}.cm-product-cropped{overflow:hidden;background-repeat:no-repeat;background-size:cover;background-position:top;border-radius:3px 3px 0 0}.cm-product-cropped:before{content:""!important;display:block!important;padding-top:66.66667%!important}.cm-product-cropped>*{position:absolute!important;top:0!important;bottom:0!important;left:0!important;right:0!important}.cm-product-imgOverlay{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%;background:rgba(139,167,83,.95);color:#fff;opacity:0;transition:opacity .3s ease-in-out;pointer-events:none;border-radius:3px 3px 0 0}.cm-product-cmLogo{display:block;max-width:50px;height:auto;margin:0 auto 26px;padding:0}.cm-product-imgOverlayContent{display:block;color:#fff;font-family:Helvetica Neue,Helvetica,Arial,sans-serif!important;letter-spacing:normal!important;text-transform:none!important;text-align:center;position:relative;top:50%;transform:perspective(1px) translateY(-50%)}.cm-product-overflowText{font-size:16px!important;font-weight:700!important}.cm-product-textAfter{display:inline}.cm-product-rsaquo{position:relative;font-family:Arial,sans-serif!important;display:inline-block;font-size:22px!important;margin-left:5px}.cm-product-meta{position:relative;padding:15px 80px 12px 20px;background:#fff}.cm-product-metaTitle{display:block;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;font:700 14px/1.2em Helvetica Neue,Helvetica,Arial,sans-serif!important;letter-spacing:normal!important;text-transform:none!important;margin:0 0 3px;padding:0;color:#383836}.cm-product-metaTitle:hover{color:#222}.cm-product-metaSubtitle{font:700 11px/1.3em Helvetica Neue,Helvetica,Arial,sans-serif!important;letter-spacing:normal!important;text-transform:none!important;color:#b8b7b6;width:100%;margin:0;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}.cm-product-metaCategory,.cm-product-metaShop{transition:color .2s ease-in-out;color:#7d7b78}.cm-product-metaCategory:hover,.cm-product-metaShop:hover{color:#383836}.cm-product-metaBy,.cm-product-metaIn{display:inline}.cm-product-priceTag{position:absolute;top:16px;right:20px;display:inline-block;text-decoration:none;text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif!important;letter-spacing:normal!important;text-transform:none!important;font-weight:700!important;line-height:1;z-index:1;transition:background .3s ease-in-out;color:#fff;background-color:#8da45c;font-size:14px!important;padding:7px 5px;margin-left:10.5px;min-width:33px;border-radius:2.33333px 4.66667px 4.66667px 2.33333px}.cm-product-priceTag:before{width:28px;height:28px;transform:translate(-14px) scale(.65) rotate(-45deg);border-radius:8.23529px 0 0 0}.cm-product-priceTag:after{left:-4px;width:5px;height:5px;position:absolute;top:50%;transform:perspective(1px) translateY(-50%)}.cm-product-priceTag:after,.cm-product-priceTag:before{content:"";position:absolute;display:block}.cm-product-priceTag:before{background-color:#8da45c;z-index:-1;left:0;top:0;transition:background .3s ease-in-out}.cm-product-priceTag:after{border-radius:50%;background:#fff}.cm-product-priceTag:hover{color:#fff;background:#97b162}.cm-product-priceTag:hover:before{background:#97b162}.cm-product-powered-by{display:block!important;width:100%!important;max-width:580px!important;min-width:120px!important;text-align:right!important;color:#b8b7b6!important;font:600 11px/14px Helvetica Neue,Helvetica,Arial,sans-serif!important;text-transform:none!important;letter-spacing:normal!important;margin:10px 0 0!important;padding:0!important}.cm-product-powered-by a{display:inline-block!important;outline:0!important;padding:0!important;margin:0!important;border:0!important}.cm-product-powered-by a,.cm-product-powered-by a.cm-product-focus,.cm-product-powered-by a:active,.cm-product-powered-by a:visited{color:#7d7b78!important;text-decoration:none!important}.cm-product-powered-by a:hover{color:#383836!important}.cm-product-widgetXs .cm-product-cmLogo{max-width:30px;margin:0 auto 8px}.cm-product-widgetXs .cm-product-overflowText{font-size:12px!important}.cm-product-widgetXs .cm-product-textAfter{display:none}.cm-product-widgetXs .cm-product-rsaquo{font-size:20px!important;margin-left:3px;top:1px}.cm-product-widgetXs .cm-product-meta{text-align:center;position:relative;padding:7px 6px}.cm-product-widgetXs .cm-product-metaTitle{white-space:normal;overflow:visible;text-overflow:clip;text-align:center;font-size:11px!important;margin:0 0 5px;padding:0}.cm-product-widgetXs .cm-product-metaSubtitle{display:none}.cm-product-widgetXs .cm-product-priceTag{font-size:11px!important;padding:5px 4px 6px;margin-left:8.25px;min-width:26px;border-radius:1.83333px 3.66667px 3.66667px 1.83333px;position:relative;top:auto;right:auto;display:inline-block;-webkit-transform:none;transform:none}.cm-product-widgetXs .cm-product-priceTag:before{width:22px;height:22px;transform:translate(-11px) scale(.65) rotate(-45deg);border-radius:6.47059px 0 0 0}.cm-product-widgetXs .cm-product-priceTag:after{left:-3px;width:4px;height:4px;position:absolute;top:50%;transform:perspective(1px) translateY(-50%)}.cm-product-widgetSm .cm-product-cmLogo{max-width:35px;margin:0 auto 13px}.cm-product-widgetSm .cm-product-overflowText{font-size:14px!important;max-width:140px;display:inline-block;line-height:18px}.cm-product-widgetSm .cm-product-rsaquo{top:1px}.cm-product-widgetSm .cm-product-meta{padding:13px 55px 13px 10px}.cm-product-widgetSm .cm-product-metaTitle{font-size:12px!important;margin:0 0 3px;padding:0}.cm-product-widgetSm .cm-product-metaSubtitle{font-size:10px!important}.cm-product-widgetSm .cm-product-metaCategory,.cm-product-widgetSm .cm-product-metaIn{display:none}.cm-product-widgetSm .cm-product-priceTag{font-size:11px!important;padding:5px 4px 6px;margin-left:8.25px;min-width:26px;border-radius:1.83333px 3.66667px 3.66667px 1.83333px;top:17px;right:10px}.cm-product-widgetSm .cm-product-priceTag:before{width:22px;height:22px;transform:translate(-11px) scale(.65) rotate(-45deg);border-radius:6.47059px 0 0 0}.cm-product-widgetSm .cm-product-priceTag:after{left:-3px;width:4px;height:4px;position:absolute;top:50%;transform:perspective(1px) translateY(-50%)}.cm-product-widgetMd .cm-product-cmLogo{max-width:35px;margin:0 auto 13px}.cm-product-widgetMd .cm-product-overflowText{font-size:14px!important}.cm-product-widgetMd .cm-product-rsaquo{top:1px}.cm-product-widgetMd .cm-product-meta{padding:11px 81px 12px 15px}.cm-product-widgetMd .cm-product-priceTag{right:15px;top:14px}</style><style type="text/css">.js-slide-hidden{position:absolute !important;left:-9999px !important;top:-9999px !important;display:block !important}</style></head>
+    <body class="showcase-page" style="">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N8HSM6T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+        <div id="wrapper">
+            <div class="container">
+
+                
+                    
+                <div id="donateBanner">
+                    <div align="center"><a href="https://phaser.io/community/donate"><strong>Did you know</strong> Phaser relies 100% on community backing to fund development? <u>Please join up!</u></a></div>
+                </div>
+
+                    
+                
+                
+                    <header id="header">
+    <strong class="logo"><a href="https://phaser.io/">Home</a></strong>
+    <div class="toggle-slide js-slide-hidden">
+        <div class="holder">
+                        <nav class="navigation">
+                            <ul>
+                                  <li><a href="https://phaser.io/news">News</a></li>
+
+                                  <li><a href="https://phaser.io/learn">Learn</a></li>
+
+                                  <li><a href="https://phaser.io/download">Download</a></li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="holder">
+                        <nav class="navigation">
+                            <ul>
+                                  <li class="active"><a href="https://phaser.io/examples">Examples</a></li>
+
+                                  <li><a href="https://phaser.io/community">Community</a></li>
+
+                                  <li><a href="https://phaser.io/shop">Plugins</a></li>
+
+                            </ul>
+                        </nav>
+                    </div>
+    </div>
+</header>
+                    <section class="panel">
+                    <div class="title-box">
+                        <h1>Text</h1>
+
+                        
+                        <a class="btn-back" href="https://phaser.io/examples/v2">Back to Phaser 2 Examples</a>
+
+                        
+                    </div>
+
+                    <form action="https://phaser.io/examples/v2/search/" class="form-showcase-search" method="get">
+
+                        <fieldset>
+                            <input type="submit">
+                            <div class="search-box"><input type="search" name="search" value="" placeholder="Search Examples (i.e. collision)"></div>
+                        </fieldset>
+                    </form>
+                </section>
+
+                
+                <div id="main">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <aside id="sidebar">
+
+                    <script async="" type="text/javascript" src="./Phaser - Examples - Text_files/carbon.js.download" id="_carbonads_js"></script><div id="carbonads"><span><span class="carbon-wrap"><a href="https://srv.carbonads.net/ads/click/x/GTND42QUC6ADKKJJCEA4YKQMCA7D627ICK7DKZ3JCWSI6KJWCYYI5KQKC6BI5KQYCYADTK3EHJNCLSIZ?segment=placement:phaserio;" class="carbon-img" target="_blank" rel="noopener"><img src="./Phaser - Examples - Text_files/1559076206-slack-carbon-rainbow_2x.png" alt="ads via Carbon" border="0" height="100" width="130" style="max-width: 130px;"></a><a href="https://srv.carbonads.net/ads/click/x/GTND42QUC6ADKKJJCEA4YKQMCA7D627ICK7DKZ3JCWSI6KJWCYYI5KQKC6BI5KQYCYADTK3EHJNCLSIZ?segment=placement:phaserio;" class="carbon-text" target="_blank" rel="noopener">Bring your team together with Slack, the collaboration hub for work.</a></span><a href="http://carbonads.net/?utm_source=phaserio&amp;utm_medium=ad_via_link&amp;utm_campaign=in_unit&amp;utm_term=carbon" class="carbon-poweredby" target="_blank" rel="noopener">ads via Carbon</a><img src="./Phaser - Examples - Text_files/B21259774.239130584" border="0" height="1" width="1" alt="ads via Carbon" style="display: none;"></span></div>
+
+                    <nav class="sidenav catagories ">
+                        <div class="head">
+                            <a href="https://phaser.io/examples" class="opener">Categories</a>
+                        </div>
+                        <ul class="js-slide-hidden">
+
+                            <li>
+                                <a href="https://phaser.io/examples">
+                                    <i class="icon icon1">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>All</span>
+                                        <span class="counter">(<span class="number ">685</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/animation">
+                                    <i class="icon icon2">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Animation</span>
+                                        <span class="counter">(<span class="number ">18</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/arcade-physics">
+                                    <i class="icon icon3">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Arcade Physics</span>
+                                        <span class="counter">(<span class="number ">50</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/audio">
+                                    <i class="icon icon9">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Audio</span>
+                                        <span class="counter">(<span class="number ">13</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/basics">
+                                    <i class="icon icon5">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Basics</span>
+                                        <span class="counter">(<span class="number ">7</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/bitmapdata">
+                                    <i class="icon icon7">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>BitmapData</span>
+                                        <span class="counter">(<span class="number ">25</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/box2d">
+                                    <i class="icon icon3">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Box2D</span>
+                                        <span class="counter">(<span class="number ">40</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/buttons">
+                                    <i class="icon icon11">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Buttons</span>
+                                        <span class="counter">(<span class="number ">8</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/camera">
+                                    <i class="icon icon2">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Camera</span>
+                                        <span class="counter">(<span class="number ">14</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/create">
+                                    <i class="icon icon9">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Create</span>
+                                        <span class="counter">(<span class="number ">6</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/debug">
+                                    <i class="icon icon5">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Debug</span>
+                                        <span class="counter">(<span class="number ">6</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/demoscene">
+                                    <i class="icon icon9">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Demoscene</span>
+                                        <span class="counter">(<span class="number ">18</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/display">
+                                    <i class="icon icon7">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Display</span>
+                                        <span class="counter">(<span class="number ">30</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/filters">
+                                    <i class="icon icon4">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Filters</span>
+                                        <span class="counter">(<span class="number ">36</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/games">
+                                    <i class="icon icon13">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Games</span>
+                                        <span class="counter">(<span class="number ">9</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/geometry">
+                                    <i class="icon icon6">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Geometry</span>
+                                        <span class="counter">(<span class="number ">21</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/groups">
+                                    <i class="icon icon8">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Groups</span>
+                                        <span class="counter">(<span class="number ">34</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/input">
+                                    <i class="icon icon10">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Input</span>
+                                        <span class="counter">(<span class="number ">50</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/loader">
+                                    <i class="icon icon11">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Loader</span>
+                                        <span class="counter">(<span class="number ">15</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/misc">
+                                    <i class="icon icon12">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Misc</span>
+                                        <span class="counter">(<span class="number ">8</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/ninja-physics">
+                                    <i class="icon icon3">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Ninja Physics</span>
+                                        <span class="counter">(<span class="number ">5</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/p2-physics">
+                                    <i class="icon icon3">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>P2 Physics</span>
+                                        <span class="counter">(<span class="number ">40</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/particles">
+                                    <i class="icon icon4">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Particles</span>
+                                        <span class="counter">(<span class="number ">21</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/particlestorm">
+                                    <i class="icon icon4">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Particle Storm</span>
+                                        <span class="counter">(<span class="number ">36</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/sprites">
+                                    <i class="icon icon13">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Sprites</span>
+                                        <span class="counter">(<span class="number ">38</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li class="active">
+                            
+                                <a href="https://phaser.io/examples/v2/category/text">
+                                    <i class="icon icon12">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Text</span>
+                                        <span class="counter">(<span class="number ">42</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/tile-sprites">
+                                    <i class="icon icon11">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Tile Sprites</span>
+                                        <span class="counter">(<span class="number ">7</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/tilemaps">
+                                    <i class="icon icon13">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Tilemaps</span>
+                                        <span class="counter">(<span class="number ">22</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/time">
+                                    <i class="icon icon7">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Time</span>
+                                        <span class="counter">(<span class="number ">9</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/tweens">
+                                    <i class="icon icon3">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Tweens</span>
+                                        <span class="counter">(<span class="number ">23</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/video">
+                                    <i class="icon icon2">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Video</span>
+                                        <span class="counter">(<span class="number ">10</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/virtualjoystick">
+                                    <i class="icon icon10">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Virtual Joystick</span>
+                                        <span class="counter">(<span class="number ">14</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/weapon">
+                                    <i class="icon icon9">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>Weapon</span>
+                                        <span class="counter">(<span class="number ">7</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                                                        <li>
+                            
+                                <a href="https://phaser.io/examples/v2/category/world">
+                                    <i class="icon icon8">&nbsp;</i>
+                                    <div class="textbox">
+                                        <span>World</span>
+                                        <span class="counter">(<span class="number ">3</span>)</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                        
+                        </ul>
+                    </nav>
+                    <div class="patreon" style="width: 100%; padding-top: 12px; text-align: center">
+<span></span>
+<span></span>
+</div>
+
+<div style="margin-bottom: 20px"><div class="cm-product-widget cm-product-widgetSm"><span data-cm-href="https://creativemarket.com/Gagu/1016756-Samurai-Game-Sprite?u=PhotonStorm&amp;utm_source=phaser.io&amp;utm_medium=embed&amp;utm_campaign=product%20embed&amp;utm_content=Samurai%20Game%20Sprite&amp;utm_term=12677" class="cm-product-imgWrapper cm-product-cropped" style="background-image: url(&quot;https://cmkt-image-prd.freetls.fastly.net/0.1.0/ps/1845938/910/607/m1/fpnw/wm0/samurai-sprite-.jpg?1478228954&amp;s=ca0f0ccf69bc7703ea9054a5c57f5930&quot;);"><!----> <div class="cm-product-imgOverlay"><span class="cm-product-imgOverlayContent"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48.05 48.05" class="cm-product-cmLogo"><title>Creative Market Logo</title><path d="M95.06,65.71c0-1.84-.79-12.77-.79-12.77a5,5,0,0,0-5.13-5.14S78.2,47,76.36,47c-2.64,0-4.4-.08-7.72,3.24L48.44,70.46c-.75.75-3.29,3.71,1,8l6.85,6.85.39.39,6.85,6.86c4.33,4.33,7.3,1.79,8,1L91.82,73.43C95.14,70.12,95.06,68.36,95.06,65.71ZM76,71.61l6.11,2.9-2.25,4L74.2,74.84a.78.78,0,0,0-.43-.13.76.76,0,0,0-.76.82l.47,6.69H68.93c0-.06.37-6.69.37-6.69a.76.76,0,0,0-1.19-.68l-5.5,3.73-2.45-3.9,6.17-3.06a.76.76,0,0,0,0-1.38l-6.12-2.9,2.25-4L68.11,67a.76.76,0,0,0,1.19-.69l-.46-6.69h4.53L73,66.32A.76.76,0,0,0,74.2,67l5.5-3.73,2.45,3.91L76,70.23a.76.76,0,0,0,0,1.38ZM86.45,58.78a2.89,2.89,0,1,1,2.89-2.89A2.89,2.89,0,0,1,86.45,58.78Z" transform="translate(-47.01 -47.02)" style="fill: rgb(255, 255, 255);"></path></svg> <span class="cm-product-overflowText">
+                Learn more
+                <span class="cm-product-textAfter">at Creative Market</span> <span class="cm-product-rsaquo">›</span></span></span></div></span> <div class="cm-product-meta"><span data-cm-href="https://creativemarket.com/Gagu/1016756-Samurai-Game-Sprite?u=PhotonStorm&amp;utm_source=phaser.io&amp;utm_medium=embed&amp;utm_campaign=product%20embed&amp;utm_content=Samurai%20Game%20Sprite&amp;utm_term=12677" class="cm-product-metaTitle">
+            Samurai Game Sprite
+        </span> <div class="cm-product-metaSubtitle"><span class="cm-product-metaBy">by</span> <span data-cm-href="https://creativemarket.com/Gagu?u=PhotonStorm&amp;utm_source=phaser.io&amp;utm_medium=embed&amp;utm_campaign=product%20embed&amp;utm_content=Gagu&amp;utm_term=12677" title="Gagu" class="cm-product-metaShop">
+                Gagu
+            </span> <span class="cm-product-metaIn">in</span> <span data-cm-href="https://creativemarket.com/graphics/illustrations?u=PhotonStorm&amp;utm_source=phaser.io&amp;utm_medium=embed&amp;utm_campaign=product%20embed&amp;utm_content=Illustrations&amp;utm_term=12677" title="Illustrations" class="cm-product-metaCategory">
+                Illustrations
+            </span></div> <span data-cm-href="https://creativemarket.com/Gagu/1016756-Samurai-Game-Sprite?u=PhotonStorm&amp;utm_source=phaser.io&amp;utm_medium=embed&amp;utm_campaign=product%20embed&amp;utm_content=Samurai%20Game%20Sprite&amp;utm_term=12677" class="cm-product-priceTag">
+            $9
+        </span></div></div></div><script type="text/javascript" src="./Phaser - Examples - Text_files/product_embed.js.download"></script>
+
+
+
+    <div class="shopsidebar">
+    <a href="https://gum.co/sANMj/holidaysale"><img src="./Phaser - Examples - Text_files/megabundle300.png" width="300" height="149" alt="Phaser Mega Bundle" title="Phaser Mega Bundle"></a><br>
+    <a href="https://gum.co/sANMj/holidaysale">Phaser Plugin Mega Bundle<br>$150 worth of plugins for $50!</a>
+</div>
+
+
+
+    <iframe src="./Phaser - Examples - Text_files/iframe.html" scrolling="no" frameborder="0" height="314" style="max-width: 300px; width: 100%;"></iframe>
+
+
+<div style="width: 300px; padding-top: 0px">
+                        <a href="https://academy.zenva.com/product/html5-game-phaser-mini-degree/?a=13"><img src="./Phaser - Examples - Text_files/zenva3.png" width="300" height="234" alt="Zenva" title="The Complete Phaser 3 Game Development Course"></a>
+                        </div>
+                </aside>
+                
+                        </div>
+                        <div class="col-sm-9">
+                            <div id="content">
+
+                            
+    <section class="showcase-area">
+
+        <ul class="showcase">
+
+        
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmap-fonts"><img src="./Phaser - Examples - Text_files/bitmap-fonts.jpg" alt="Example screen shot" title="bitmap fonts" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmap-fonts">bitmap fonts</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmapfont-drag"><img src="./Phaser - Examples - Text_files/bitmapfont-drag.jpg" alt="Example screen shot" title="bitmapfont drag" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmapfont-drag">bitmapfont drag</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmaptext-anchor-x"><img src="./Phaser - Examples - Text_files/bitmaptext-anchor-x.jpg" alt="Example screen shot" title="bitmaptext anchor x" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmaptext-anchor-x">bitmaptext anchor x</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmaptext-anchor-y"><img src="./Phaser - Examples - Text_files/bitmaptext-anchor-y.jpg" alt="Example screen shot" title="bitmaptext anchor y" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmaptext-anchor-y">bitmaptext anchor y</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmaptext-max-width"><img src="./Phaser - Examples - Text_files/bitmaptext-max-width.jpg" alt="Example screen shot" title="bitmaptext max width" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmaptext-max-width">bitmaptext max width</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmaptext-purge-glyphs"><img src="./Phaser - Examples - Text_files/bitmaptext-purge-glyphs.jpg" alt="Example screen shot" title="bitmaptext purge glyphs" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmaptext-purge-glyphs">bitmaptext purge glyphs</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmaptext-with-physics"><img src="./Phaser - Examples - Text_files/bitmaptext-with-physics.jpg" alt="Example screen shot" title="bitmaptext with physics" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmaptext-with-physics">bitmaptext with physics</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/bitmaptext-with-physics-updating"><img src="./Phaser - Examples - Text_files/bitmaptext-with-physics-updating.jpg" alt="Example screen shot" title="bitmaptext with physics updating" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/bitmaptext-with-physics-updating">bitmaptext with physics updating</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/center-text"><img src="./Phaser - Examples - Text_files/center-text.jpg" alt="Example screen shot" title="center text" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/center-text">center text</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/center-text-on-sprite"><img src="./Phaser - Examples - Text_files/center-text-on-sprite.jpg" alt="Example screen shot" title="center text on sprite" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/center-text-on-sprite">center text on sprite</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/clean-text"><img src="./Phaser - Examples - Text_files/clean-text.jpg" alt="Example screen shot" title="clean text" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/clean-text">clean text</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/colored-characters"><img src="./Phaser - Examples - Text_files/colored-characters.jpg" alt="Example screen shot" title="colored characters" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/colored-characters">colored characters</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/display-text-word-by-word"><img src="./Phaser - Examples - Text_files/display-text-word-by-word.jpg" alt="Example screen shot" title="display text word by word" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/display-text-word-by-word">display text word by word</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/dynamic-text-shadow"><img src="./Phaser - Examples - Text_files/dynamic-text-shadow.jpg" alt="Example screen shot" title="dynamic text shadow" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/dynamic-text-shadow">dynamic text shadow</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/extending-text"><img src="./Phaser - Examples - Text_files/extending-text.jpg" alt="Example screen shot" title="extending text" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/extending-text">extending text</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/google-webfonts"><img src="./Phaser - Examples - Text_files/google-webfonts.jpg" alt="Example screen shot" title="google webfonts" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/google-webfonts">google webfonts</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/hello-arial"><img src="./Phaser - Examples - Text_files/hello-arial.jpg" alt="Example screen shot" title="hello arial" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/hello-arial">hello arial</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/kern-of-duty"><img src="./Phaser - Examples - Text_files/kern-of-duty.jpg" alt="Example screen shot" title="kern of duty" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/kern-of-duty">kern of duty</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/line-color"><img src="./Phaser - Examples - Text_files/line-color.jpg" alt="Example screen shot" title="line color" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/line-color">line color</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/littera"><img src="./Phaser - Examples - Text_files/littera.jpg" alt="Example screen shot" title="littera" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/littera">littera</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/remove-text"><img src="./Phaser - Examples - Text_files/remove-text.jpg" alt="Example screen shot" title="remove text" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/remove-text">remove text</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/retro-font-1"><img src="./Phaser - Examples - Text_files/retro-font-1.jpg" alt="Example screen shot" title="retro font 1" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/retro-font-1">retro font 1</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/retro-font-2"><img src="./Phaser - Examples - Text_files/retro-font-2.jpg" alt="Example screen shot" title="retro font 2" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/retro-font-2">retro font 2</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/set-properties-after-creation"><img src="./Phaser - Examples - Text_files/set-properties-after-creation.jpg" alt="Example screen shot" title="set properties after creation" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/set-properties-after-creation">set properties after creation</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-bounds"><img src="./Phaser - Examples - Text_files/text-bounds.jpg" alt="Example screen shot" title="text bounds" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-bounds">text bounds</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-events"><img src="./Phaser - Examples - Text_files/text-events.jpg" alt="Example screen shot" title="text events" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-events">text events</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-gradient"><img src="./Phaser - Examples - Text_files/text-gradient.jpg" alt="Example screen shot" title="text gradient" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-gradient">text gradient</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-line-spacing"><img src="./Phaser - Examples - Text_files/text-line-spacing.jpg" alt="Example screen shot" title="text line spacing" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-line-spacing">text line spacing</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-padding"><img src="./Phaser - Examples - Text_files/text-padding.jpg" alt="Example screen shot" title="text padding" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-padding">text padding</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-reflect"><img src="./Phaser - Examples - Text_files/text-reflect.jpg" alt="Example screen shot" title="text reflect" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-reflect">text reflect</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-resolution"><img src="./Phaser - Examples - Text_files/text-resolution.jpg" alt="Example screen shot" title="text resolution" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-resolution">text resolution</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-shadow"><img src="./Phaser - Examples - Text_files/text-shadow.jpg" alt="Example screen shot" title="text shadow" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-shadow">text shadow</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-shadow-stroke"><img src="./Phaser - Examples - Text_files/text-shadow-stroke.jpg" alt="Example screen shot" title="text shadow stroke" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-shadow-stroke">text shadow stroke</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-stroke"><img src="./Phaser - Examples - Text_files/text-stroke.jpg" alt="Example screen shot" title="text stroke" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-stroke">text stroke</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-stroke-with-color"><img src="./Phaser - Examples - Text_files/text-stroke-with-color.jpg" alt="Example screen shot" title="text stroke with color" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-stroke-with-color">text stroke with color</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-tabs"><img src="./Phaser - Examples - Text_files/text-tabs.jpg" alt="Example screen shot" title="text tabs" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-tabs">text tabs</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-tabs-from-array"><img src="./Phaser - Examples - Text_files/text-tabs-from-array.jpg" alt="Example screen shot" title="text tabs from array" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-tabs-from-array">text tabs from array</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-tabs-with-google-font"><img src="./Phaser - Examples - Text_files/text-tabs-with-google-font.jpg" alt="Example screen shot" title="text tabs with google font" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-tabs-with-google-font">text tabs with google font</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-tint"><img src="./Phaser - Examples - Text_files/text-tint.jpg" alt="Example screen shot" title="text tint" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-tint">text tint</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-left" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/text-with-physics"><img src="./Phaser - Examples - Text_files/text-with-physics.jpg" alt="Example screen shot" title="text with physics" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/text-with-physics">text with physics</a></strong>
+                </div>
+            </li>
+
+        
+            <li style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/update-text"><img src="./Phaser - Examples - Text_files/update-text.jpg" alt="Example screen shot" title="update text" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/update-text">update text</a></strong>
+                </div>
+            </li>
+
+        
+            <li class="same-height-right" style="height: 247px;">
+                <a href="https://phaser.io/examples/v2/text/word-wrap"><img src="./Phaser - Examples - Text_files/word-wrap.jpg" alt="Example screen shot" title="word wrap" class="img"></a>
+                <div class="box">
+                    <strong class="sub-title"><a href="https://phaser.io/examples/v2/text/word-wrap">word wrap</a></strong>
+                </div>
+            </li>
+
+        
+        </ul>
+
+    </section>
+
+
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer id="footer">
+                    <div class="holder">
+                        <img src="./Phaser - Examples - Text_files/img10.png" alt="rocketman" class="img-rocket">
+                        <div class="footer-info">
+                            <div class="site-rights">
+                                <strong class="logo"><a href="http://www.photonstorm.com/">Photon Storm HTML5 Game Developers</a></strong>
+                                <span class="copyright">© 2019 Photon Storm Ltd.</span>
+                                <p>All rights reserved.</p>
+                                <p><a href="https://phaser.io/community/privacy-policy" style="color: white">Privacy &amp; Cookie Policy</a></p>
+                            </div>
+                            <div class="footer-links">
+                                <p><a href="https://phaser.io/download/stable">Get Phaser 3.20.1</a><br>
+                                <a href="https://phaser.io/docs">API Docs</a><br>
+                                <a href="https://phaser.io/community/donate">Donate to the Project</a></p>
+                            </div>
+                        </div>
+                        <ul class="social-links">
+                            <li><a href="https://phaser.discourse.group/">Forums</a></li>
+                            <li class="twitter"><a href="https://twitter.com/phaser_">@phaser_</a></li>
+                            <li class="github"><a href="https://github.com/photonstorm/phaser">GitHub</a></li>
+                        </ul>
+                    </div>
+                </footer>
+
+        <!-- container -->
+        </div>
+
+    <!-- wrapper -->
+    </div>
+
+    <script async="" defer="" src="./Phaser - Examples - Text_files/buttons.js.download"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-44006568-1', 'auto');
+        ga('require', 'linkid', 'linkid.js');
+        ga('send', 'pageview');
+
+        var trackOutboundLink = function(url) {
+            ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+            function () {
+                document.location = url;
+            }
+        });
+    }
+    </script>
+
+    <!-- The best way to predict the future is to create it -->
+
+    
+
+<iframe id="font-resize-frame-937" class="font-resize-helper" style="width: 100em; height: 10px; position: absolute; border-width: 0px; top: -9999px; left: -9999px;" src="./Phaser - Examples - Text_files/saved_resource.html"></iframe></body></html>
