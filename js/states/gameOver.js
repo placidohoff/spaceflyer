@@ -1,5 +1,5 @@
 
-var starfield, playerScore, bmpText, highScores, fs, randomNum, name;
+var starfield, playerScore, bmpText, highScores, fs, randomNum, name, isTrueGameSession;
 //import fs from 'fs';
 
 
@@ -9,10 +9,14 @@ var starfield, playerScore, bmpText, highScores, fs, randomNum, name;
 
 var gameOver = {
     init: function (theScore) {
-        if(theScore)
+        if(theScore){
             playerScore = theScore;
-        else
+            isTrueGameSession = true;
+        }
+        else{
             playerScore = game.rnd.integerInRange(0,100);
+            isTrueGameSession = false;
+        }
 
     },
     
@@ -25,19 +29,23 @@ var gameOver = {
         //fs = require("fs");
         //playerScore = game.rnd.integerInRange(0,100);
         let name = prompt("Input a name to save this game session's score:");
+        if(name == 'delete'){
+            localStorage.clear();
+        }
         let record = { "name": name,
                         "score": playerScore,
                         "gametitle": "spaceshooter" 
                     };
-        // if(localStorage){
-        //     localStorage.setItem(name, JSON.stringify(record));
+        if(localStorage){
+            if(isTrueGameSession)
+                localStorage.setItem(name, JSON.stringify(record));
 
-        //     //console.log("This is your score:", localStorage.getItem(name));
-        //     let user = JSON.parse(localStorage.getItem(name));
-        //     console.log(user);
-        // }else{
-        //     alert("This doesn't support local storage");
-        // }
+            //console.log("This is your score:", localStorage.getItem(name));
+            let user = JSON.parse(localStorage.getItem(name));
+            console.log(user);
+        }else{
+            alert("This doesn't support local storage");
+        }
         let entireStorage = localStorage;
         let records = [];
         for(let rawRecordName in entireStorage){
@@ -90,11 +98,16 @@ var gameOver = {
 
         bmpText = game.add.bitmapText(100, 110, 'arcade', 'YOUR SCORE: ' + playerScore, 24);
 
+        let titleSpacer = '      ';
+        let boardSpacer = '      '; 
+        this.add.bitmapText(100, 160 + 10, 'arcade', `Rank${titleSpacer} Score${titleSpacer}Session Name`);
         for (let i = 1; i <= highestScores.length; i++) {
+            // this.add.bitmapText(100, 160 + 50 * i, 'arcade', ` Rank      Score    Session Name`);
+
             if (highestScores[i-1]) {
-              this.add.bitmapText(100, 160 + 50 * i, 'arcade', ` ${i}      ${highestScores[i-1].score}    ${highestScores[i-1].name}`);
+              this.add.bitmapText(100, 160 + 50 * i, 'arcade', ` ${i}${boardSpacer}${boardSpacer}${highestScores[i-1].score}${boardSpacer} ${highestScores[i-1].name}`);
             } else {
-              this.add.bitmapText(100, 160 + 50 * i, 'arcade', ` ${i}      0    ---`).setTint(0xffffff);
+              this.add.bitmapText(100, 160 + 50 * i, 'arcade', ` ${i}${boardSpacer}${boardSpacer}0${boardSpacer}  ---`).setTint(0xffffff);
             }
           }
 

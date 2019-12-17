@@ -776,6 +776,9 @@ var openState = {
         text.anchor.set(0.5);
         text.alpha = 0.1;
 
+        shootButton.destroy();
+        stick.destroy();
+
         var over = game.add.tween(text).to( { alpha: 1 }, 3000, "Linear", true);
         over.onComplete.add(doSomething, this);function doSomething () { game.state.start('gameOver',true, false, score);}
         
