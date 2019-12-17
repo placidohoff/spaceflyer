@@ -75,17 +75,23 @@ BigUfo.prototype.update = function(){
         //alert("hello");
         //this.body.velocity.x = 200;
         this.doBasicUfoSideToSideMovement();
-        if(this.logic == "spawnShips"){
-                this.doBasicUfoSideToSideMovement();
-            // }
+        let randomAttack = this.game.rnd.integerInRange(0,1);
+        if(randomAttack == 0){
             this.spawnEnemyShips();
+        }else{
+            this.shootLaserBeam();
         }
-        if(this.logic == "shootLasers"){
-            this.doBasicUfoSideToSideMovement();
+        // if(this.logic == "spawnShips"){
+        //         this.doBasicUfoSideToSideMovement();
+        //     // }
+        //     this.spawnEnemyShips();
         // }
-        this.shootLaserBeam();
+        // if(this.logic == "shootLasers"){
+        //     this.doBasicUfoSideToSideMovement();
+        // // }
+        // this.shootLaserBeam();
 
-        }
+        // }
         //this.spawnEnemyShips();
     }
 
