@@ -1,5 +1,5 @@
 
-var starfield, playerScore, bmpText, highScores, fs, randomNum, name, isTrueGameSession;
+var starfield, playerScore, bmpText, highScores, fs, randomNum, name, isTrueGameSession, gameOverButton;
 //import fs from 'fs';
 
 
@@ -23,11 +23,13 @@ var gameOver = {
     preload: function(){
          game.load.image('starfield', 'assets/starfield.jpg');
          game.load.bitmapFont('arcade', 'assets/mytext/arcade.png', 'assets/mytext/arcade.xml');
+         game.load.image('playagn', 'assets/mybuttons/playagain.png', 193, 71);
 
     },
     create: function(game){
         //fs = require("fs");
         //playerScore = game.rnd.integerInRange(0,100);
+                //alert(gameOverButton);
         let name = prompt("Input a name to save this game session's score:");
         if(name == 'delete'){
             localStorage.clear();
@@ -111,6 +113,9 @@ var gameOver = {
             }
           }
 
+          gameOverButton = game.add.button(game.width/2, game.height - 50, 'playagn', this.playGame, this, 2, 1, 0);
+
+
           
         
         //highScores = fs.readFileSync("highscores.txt", "utf8");
@@ -123,6 +128,7 @@ var gameOver = {
     },
     update: function(game){
         starfield.tilePosition.y += 2;
+        //alert(gameOverButton);
 
     },
     findHighestScore: function(arr){
@@ -135,7 +141,12 @@ var gameOver = {
             }
         }
         return arr[highScoreIndex];
+    },
+    playGame: function(){
+        game.state.start('open');
     }
+    
+    
 
    
 };

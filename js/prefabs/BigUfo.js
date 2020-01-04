@@ -33,6 +33,8 @@ var BigUfo = function(game, x, y,){
     this.isHit = false;
     this.blinkCounter = 0;
     this.hitPoints = 20;
+    this.isDead = false;
+    this.points = 6;
 
     var originX = this.game.rnd.integerInRange(0, game.width);
     this.x = originX;
@@ -63,6 +65,7 @@ BigUfo.prototype.constuctor = BigUfo;
 BigUfo.prototype.update = function(){
     //BEGINING LOGIC
     //if(this.isOnFirstSpawnLogic){
+        if(!this.isDead){
         if(this.y >= this.tweenStopPoint.y){
             //this.body.velocity.x = 200;
             this.isReadyToMakeShips = true;
@@ -71,74 +74,77 @@ BigUfo.prototype.update = function(){
             //this.body.velocity.y = -200;
         }
     //}
-    if(this.isReadyToDoLogic){
-        //alert("hello");
-        //this.body.velocity.x = 200;
-        this.doBasicUfoSideToSideMovement();
-        let randomAttack = this.game.rnd.integerInRange(0,1);
-        if(randomAttack == 0){
-            this.spawnEnemyShips();
-        }else{
-            this.shootLaserBeam();
-        }
-        // if(this.logic == "spawnShips"){
-        //         this.doBasicUfoSideToSideMovement();
-        //     // }
-        //     this.spawnEnemyShips();
-        // }
-        // if(this.logic == "shootLasers"){
-        //     this.doBasicUfoSideToSideMovement();
-        // // }
-        // this.shootLaserBeam();
-
-        // }
-        //this.spawnEnemyShips();
-    }
-
-    //RESET LOGIC:
-    if(this.isOnResetLogic){
-        //TWEENSTOPPOINT WILL CHANGE 
-        //if(this.x == this.tweenStopPoint.)
-        if(this.direction == "left"){
-            if(this.x <= this.tweenStopPoint.x){
-                //this.body.velocity = 0;
-                this.isOnResetLogic = false;
-                this.setLogic();
-                this.isReadyToDoLogic = true;
+        if(this.isReadyToDoLogic){
+            //alert("hello");
+            //this.body.velocity.x = 200;
+            this.doBasicUfoSideToSideMovement();
+            let randomAttack = this.game.rnd.integerInRange(0,1);
+            if(randomAttack == 0){
+                this.spawnEnemyShips();
+            }else{
+                this.shootLaserBeam();
             }
+            // if(this.logic == "spawnShips"){
+            //         this.doBasicUfoSideToSideMovement();
+            //     // }
+            //     this.spawnEnemyShips();
+            // }
+            // if(this.logic == "shootLasers"){
+            //     this.doBasicUfoSideToSideMovement();
+            // // }
+            // this.shootLaserBeam();
+
+            // }
+            //this.spawnEnemyShips();
         }
-        else if(this.direction == "right"){
-            if(this.x >= this.tweenStopPoint.x){
-                this.isOnResetLogic = false;
-                //this.body.velocity = 0;
-                this.setLogic();
-                this.isReadyToDoLogic = true;
+
+        //RESET LOGIC:
+        if(this.isOnResetLogic){
+            //TWEENSTOPPOINT WILL CHANGE 
+            //if(this.x == this.tweenStopPoint.)
+            if(this.direction == "left"){
+                if(this.x <= this.tweenStopPoint.x){
+                    //this.body.velocity = 0;
+                    this.isOnResetLogic = false;
+                    this.setLogic();
+                    this.isReadyToDoLogic = true;
+                }
             }
+            else if(this.direction == "right"){
+                if(this.x >= this.tweenStopPoint.x){
+                    this.isOnResetLogic = false;
+                    //this.body.velocity = 0;
+                    this.setLogic();
+                    this.isReadyToDoLogic = true;
+                }
+            }
+
         }
 
-    }
 
+        if(this.numberTimesLogicCompleted == 4){
+            this.numberTimesLogicCompleted = 0;
+            this.reset();
+            //this.setLogic();
+            
+        }
 
-    if(this.numberTimesLogicCompleted == 4){
-        this.numberTimesLogicCompleted = 0;
-        this.reset();
-        //this.setLogic();
-        
-    }
+        //HIT-LOGIC:
+        if(this.isHit){
+            this.blinkCounter++;
+        }
 
-    //HIT-LOGIC:
-    if(this.isHit){
-        this.blinkCounter++;
-    }
+        if(this.blinkCounter == 10){
+            this.alpha = 1;
+            this.blinkCounter = 0;
+            this.isHit = false;
+        }
 
-    if(this.blinkCounter == 10){
-        this.alpha = 1;
-        this.blinkCounter = 0;
-        this.isHit = false;
-    }
-
-    if(this.hitPoints < 0){
-        this.killThis();
+        if(this.hitPoints < 0){
+            this.alpha = 1;
+            //openState.updateScore(this.points)
+            this.killThis();
+        }
     }
     
     //console.log(this.hitPoints);
@@ -180,6 +186,7 @@ BigUfo.prototype.doBasicUfoSideToSideMovement = function(){
 BigUfo.prototype.killThis = function(){
    //this.kill();
     //alert("hit");
+    this.isDead = true;
     this.isHit = true;
     console.log(this.sig);
     this.body.velocity.x = 0;
@@ -189,10 +196,10 @@ BigUfo.prototype.killThis = function(){
     //Phaser.Sprite.call(this, game, this.x, this.y, 'explosion_atlas');
     //var explo = game.add.sprite(this.x, this.y, 'explosion_atlas');
     //explo.anchor.set(0.5, 0.5);
-    this.loadTexture('explosion_atlas');
-    this.animations.add('explode', Phaser.Animation.generateFrameNames('explo', 0, 8), 5, true);
+    this.loadTexture('bigexplosion');
+    this.animations.add('explode', Phaser.Animation.generateFrameNames('bm', 0, 7), 5, true);
 
-    this.animations.play('explode', 12, false);
+    this.animations.play('explode', 6, false);
     console.log(this.sig);
 
     this.animations.currentAnim.onComplete.add(function (){
@@ -203,7 +210,7 @@ BigUfo.prototype.killThis = function(){
     
     }, this);
     //this.kill();
-    this.destroy();
+    //this.destroy();
 
 
 };

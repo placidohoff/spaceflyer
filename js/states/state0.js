@@ -57,6 +57,10 @@ myDemo.state4.prototype = {
     
 };
 
+function updateScore(points){
+    score += points;
+}
+
 function keyEventListen(){
     if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
         //alert("hello");
