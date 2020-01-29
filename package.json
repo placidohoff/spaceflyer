@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/main.js",
   "scripts": {
-    "start": "nodemon js/main.js",
+    "start": "node js/main.js",
     "open": "start http://localhost:4000"
   },
   "author": "",
