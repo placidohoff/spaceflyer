@@ -14,8 +14,15 @@ var gameOver = {
             isTrueGameSession = true;
         }
         else{
-            playerScore = game.rnd.integerInRange(0,100);
+            //playerScore = game.rnd.integerInRange(0,100);
+            playerScore = 8;
             isTrueGameSession = false;
+        }
+        //Adding this here for format the code to be displayed neatly
+        if(playerScore < 10){
+            let numberString = '0' + playerScore.toString()
+            playerScore = parseInt(numberString);
+            console.log(numberString);
         }
 
     },
@@ -73,6 +80,10 @@ var gameOver = {
         let highestScores = [];
         for(let i = 0; i < 5; i++){
             highestScore = this.findHighestScore(records);
+            //Added the following to format the code display of the score
+            if(highestScore.score < 10){
+                highestScore.score = ' ' + highestScore.score;
+            }
             highestScores.push(highestScore);
             //let tempArr = [];
             for(let j = 0; j < records.length; j++){
