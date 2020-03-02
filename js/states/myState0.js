@@ -1,4 +1,4 @@
-var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver;
+var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText;
 var gameOptions = {
 
 };
@@ -149,6 +149,7 @@ var openState = {
         }
 
         isGameOver = false;
+        isWaitingToRespawn = false;
         //numberOfPlayerLives--;
     },
 
@@ -158,15 +159,23 @@ var openState = {
         /*if(player.y >= player.endPosY)
             player.body.enable = true;*/
         //score++;
+        if(game.input.activePointer.isDown){
+            if(isWaitingToRespawn){
+                clearTimeout(playerHitTimeOut)
+                this.respawnPlayer(game.input.activePointer.x, game.input.activePointer.y);
+            }
+        }
+        
+
         if(!isGameOver){
         text.setText("Score: "+ score);
         //COLLISIONS:
         game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
         game.physics.arcade.overlap(player, basicEnemies.children, this.playerHit);
         game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
-        game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
+        //game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
         game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
-        game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
+        //game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
 
         game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
         game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
@@ -232,16 +241,7 @@ var openState = {
         }
 
         //COLLISIONS:
-        game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
-        game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
-        game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
-        game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
-        game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
-
-        game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
-        game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
-        game.physics.arcade.collide(lasers.children, bigUfoGroup.children, this.bigUfoHit);
-
+       
         //DEBBUGGING: Seeing how many objects are in my game currently:
         //console.log(enemyLasers.children.length);
 
@@ -376,6 +376,9 @@ var openState = {
         //console.log(target);
 
     },
+    whatThe: function(){
+        alert("new");
+    },
     playerHit: function () {
         console.log("hit");
         // game.this.checkInput();
@@ -396,30 +399,85 @@ var openState = {
                 openState.gameOver();
             }
             else{
-                player = game.add.sprite(400, game.height, 'ship');
-                player.texture.baseTexture.scaleMode = PIXI.NEAREST;
-                player.scale.set(2);
-                player.anchor.set(0.5, 0.5);
-                game.physics.arcade.enable(player);
-                //player.body.enable = false;
-                player.angle -= 90;
-                player.nextFire = 0;
-                player.fireRate = 200;
-                player.width = 50;
-                player.height = 50;
-                //player.score = 0;
-                player.endPosY = game.world.centerY + 200;
+                //Must handle the user clicking to the screen get those coordinates,
+        //then we will use those coords to call player = game.add.sprite()
+                var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+                respawnText = game.add.text(game.world.centerX, game.world.centerY, "Click Where To Respawn", style);
+                respawnText.anchor.set(0.5);
+                respawnText.alpha = 0.1;
 
-                game.add.tween(player).to({ y: player.endPosY }, 1000, Phaser.Linear, true);
-                //tween.onCompleteCallback(alert("hello"));
+                respawnTextAnimation = game.add.tween(text).to( { alpha: 1 }, 3000, "Linear", true);
+                isWaitingToRespawn = true;
+                playerHitTimeOut = window.setTimeout(() => {
+                   //alert('yo');
+                    openState.respawnPlayer(-10, -10);
+            
+            }, 4000);
+        //game.time.events.add(Phaser.Timer.SECOND * 4, this.doThis, this);
+        // let pos = game.input.mousePointer.x;
+        // alert(pos);
+
+        // respawnTextAnimation.onComplete.add(doSomething, this);function doSomething () { game.state.start('gameOver',true, false, score);}
+
+
+                // player = game.add.sprite(400, game.height, 'ship');
+                // player.texture.baseTexture.scaleMode = PIXI.NEAREST;
+                // player.scale.set(2);
+                // player.anchor.set(0.5, 0.5);
+                // game.physics.arcade.enable(player);
+
+                // player.angle -= 90;
+                // player.nextFire = 0;
+                // player.fireRate = 200;
+                // player.width = 50;
+                // player.height = 50;
+
+                // player.endPosY = game.world.centerY + 200;
+
+                // game.add.tween(player).to({ y: player.endPosY }, 1000, Phaser.Linear, true);
+
                 
             }
         })
+        //this.handlePlayerRespawn();
 
         
         //numberOfPlayerLives--;
 
     },
+    respawnPlayer: function(coordX, coordY){
+        respawnText.destroy();
+        isWaitingToRespawn = false;
+        let playerX;
+        let playerY;
+        if(coordX == -10 && coordY == -10){
+            playerX = 400;
+            playerY = game.world.centerY + 200;
+        }else{
+            playerX = coordX;
+            playerY = coordY;
+        }
+        player = game.add.sprite(playerX, game.height, 'ship');
+        player.texture.baseTexture.scaleMode = PIXI.NEAREST;
+        player.scale.set(2);
+        player.anchor.set(0.5, 0.5);
+        game.physics.arcade.enable(player);
+
+        player.angle -= 90;
+        player.nextFire = 0;
+        player.fireRate = 200;
+        player.width = 50;
+        player.height = 50;
+
+        
+
+        game.add.tween(player).to({ y: playerY }, 1000, Phaser.Linear, true);
+    },
+    
+    doThis: function(){
+        alert("This");
+    },
+    
     bigUfoHit: function(ufo, laser){
         var theLaser, theUfo;
         if (ufo.sig) {
@@ -439,11 +497,36 @@ var openState = {
         //sleep(500);
         //theUfo.alpha = 1;        
     },
+    
     handlePlayerRespawn: function (){
-        console.log("hello");
-        // game.add.tween(playerLives[numberOfPlayerLives]).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 
-        // numberOfPlayerLives--;
+        //Must handle the user clicking to the screen get those coordinates,
+        //then we will use those coords to call player = game.add.sprite()
+        var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+        var text = game.add.text(game.world.centerX, game.world.centerY, "", style);
+        text.anchor.set(0.5);
+        text.alpha = 0.1;
+
+        var respawnTextAnimation = game.add.tween(text).to( { alpha: 1 }, 3000, "Linear", true);
+        respawnTextAnimation.onComplete.add(doSomething, this);function doSomething () { game.state.start('gameOver',true, false, score);}
+
+
+                // player = game.add.sprite(400, game.height, 'ship');
+                // player.texture.baseTexture.scaleMode = PIXI.NEAREST;
+                // player.scale.set(2);
+                // player.anchor.set(0.5, 0.5);
+                // game.physics.arcade.enable(player);
+
+                // player.angle -= 90;
+                // player.nextFire = 0;
+                // player.fireRate = 200;
+                // player.width = 50;
+                // player.height = 50;
+
+                // player.endPosY = game.world.centerY + 200;
+
+                // game.add.tween(player).to({ y: player.endPosY }, 1000, Phaser.Linear, true);
+    
     },
     spawnEnemy: function () {
         //if(isMultipleEnemiesDone){

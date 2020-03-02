@@ -116,16 +116,16 @@ var openState = {
     },
 
     update: function () {
-
+        //alert("yo")
         //COLLISIONS:
-        game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
+        //game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
         game.physics.arcade.overlap(player, basicEnemies.children, this.playerHit);
-        game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
+        //game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
         game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
-        game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
+        //game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
         game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
 
-        game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
+        //game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
         game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
 
 
@@ -179,15 +179,7 @@ var openState = {
         }
 
         //COLLISIONS:
-        game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
-        game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
-        game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
-        game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
-        game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
-
-        game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
-        game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
-
+        
 
         starfield.tilePosition.y += 2;
         this.checkInput();
@@ -283,7 +275,7 @@ var openState = {
         player.animations.add('explode', Phaser.Animation.generateFrameNames('explo', 0, 12), 5, true);
 
         player.animations.play('explode', 12, false);
-
+        alert("hello?")
         player.animations.currentAnim.onComplete.add(function (){
             alert("Game Over");
         })

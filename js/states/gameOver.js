@@ -81,8 +81,10 @@ var gameOver = {
         for(let i = 0; i < 5; i++){
             highestScore = this.findHighestScore(records);
             //Added the following to format the code display of the score
+            if(highestScore){
             if(highestScore.score < 10){
                 highestScore.score = ' ' + highestScore.score;
+            }
             }
             highestScores.push(highestScore);
             //let tempArr = [];
