@@ -223,7 +223,10 @@ UfoEnemy.prototype.shootLaser = function(){
         this.laser.body.velocity.y = 300;
         this.checkWorldBounds = true;
         this.laser.sig = "enemyUfoLaser";
-        enemyLasers.add(this.laser);
+        if(openState.spriteCountCheck()){
+            enemyLasers.add(this.laser);
+            enemySpriteCount++;
+        }    
         
     }
 }
@@ -249,11 +252,13 @@ UfoEnemy.prototype.killThis = function(){
 
     this.animations.currentAnim.onComplete.add(function (){
         this.children.forEach(function(child){
-            child.kill();
+            child.destroy();
         });
-        this.kill();
+        this.destroy();
     
     }, this);
+    enemySpriteCount--;
+    //alert(enemySpriteCount);
     //this.kill();
     //this.destroy();
 };

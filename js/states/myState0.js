@@ -1,4 +1,4 @@
-var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText;
+var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount;
 var gameOptions = {
 
 };
@@ -150,6 +150,7 @@ var openState = {
 
         isGameOver = false;
         isWaitingToRespawn = false;
+        enemySpriteCount = 0;
         //numberOfPlayerLives--;
     },
 
@@ -173,14 +174,15 @@ var openState = {
         game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
         game.physics.arcade.overlap(player, basicEnemies.children, this.playerHit);
         game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
-        //game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
+        game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
         game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
-        //game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
+        game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
 
         game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
         game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
         game.physics.arcade.overlap(lasers.children, bigUfoGroup.children, this.bigUfoHit);
 
+        this.checkEnemiesOffScreen();
 
         //game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
 
@@ -267,6 +269,57 @@ var openState = {
         //console.log(sprite.body.velocity.x);
         //this.clearEnemyField();
     }
+
+    },
+
+    spriteCountCheck: function(){
+        //console.log(enemySpriteCount);
+        if(enemySpriteCount < 55){
+            enemySpriteCount++;
+            return true;
+        }
+        return false
+    },
+    checkEnemiesOffScreen: () => {
+        //Check each enemygroup here and check their bounds
+        /*basicEnemies
+        ufoEnemyGroup
+        lasers
+        enemyLasers*/
+
+        this.basicEnemies.forEach(enemy => {
+            if(enemy.y > game.height){
+                
+                enemy.destroy();
+                //enemy = null;
+                enemySpriteCount--;
+            }
+        })
+
+        this.ufoEnemyGroup.forEach(enemy => {
+            if(enemy.x < 0){
+                enemy.destroy()
+                enemySpriteCount--;
+            }
+            else if(enemy.x > game.width){
+                enemy.destroy()
+                enemySpriteCount--;
+            }
+
+        })
+
+        this.lasers.forEach(laser => {
+            if(laser.y + laser.height < 0){
+                laser.destroy();
+            }
+        })
+
+        this.enemyLasers.forEach(laser => {
+            if(laser.y > game.height){
+                laser.destroy();
+                enemySpriteCount--;
+            }
+        })
 
     },
 
@@ -542,7 +595,9 @@ var openState = {
                 //nextEnemyNum = 1;
             if (nextEnemyNum == 0) {
                 enemy = new BasicEnemy0(this.game, 0, 0);
-                basicEnemies.add(enemy);
+                if(this.spriteCountCheck()){
+                    basicEnemies.add(enemy);
+                }
                 //totalObjects.add(enemy);
             } else if (nextEnemyNum == 1 || nextEnemyNum == 3) {
                 var howMany = this.game.rnd.integerInRange(0, 6);
@@ -560,7 +615,9 @@ var openState = {
                     //enemy.body.velocity.y = 100;
                     console.log(enemy);
                     //game.add.sprite(200, 200, 'bigufo');
-                    bigUfoGroup.add(enemy);
+                    if(this.spriteCountCheck()){
+                        bigUfoGroup.add(enemy);
+                    }
                 }
             }
 
@@ -635,7 +692,9 @@ var openState = {
                 if (enemyInfo.direction == "left")
                     enemy.body.velocity.x *= -1;
                 //enemy.endPosY += 10 * i;
-                ufoEnemyGroup.add(enemy);
+                if(this.spriteCountCheck()){
+                    ufoEnemyGroup.add(enemy);
+                }
                 //totalObjects.add(enemy);
 
                 //}
@@ -734,7 +793,9 @@ var openState = {
                 if (enemyInfo.direction == "left")
                     enemy.body.velocity.x *= -1;
                 //enemy.endPosY += 10 * i;
-                ufoEnemyGroup.add(enemy);
+                if(this.spriteCountCheck()){
+                    ufoEnemyGroup.add(enemy);
+                }
                 //console.log(enemy.body.velocity);
                 //totalObjects.add(enemy);
 

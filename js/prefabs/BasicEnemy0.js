@@ -66,11 +66,10 @@ BasicEnemy0.prototype.update = function(){
     //alert("hello");
     //this.body.velocity.x -= 20;
     //this.body.velocity.y -= 20;
-    if(this.direction == "right"){
-        if(this.x + this.body.velocity.x > player.x){
-            //this.body.velocity.x = 1;
-        }
+    if(this.y > game.height){
+        this.killThis();
     }
+    
 };
 
 BasicEnemy0.prototype.killThis = function(){
@@ -88,9 +87,11 @@ BasicEnemy0.prototype.killThis = function(){
     this.body.velocity.y = 0;
 
     this.animations.currentAnim.onComplete.add(function (){
+        this.body = null;
         this.kill();
     
     }, this);
-
+    enemySpriteCount--;
+    //alert("kill");
 
 };
