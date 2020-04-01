@@ -66,7 +66,7 @@ var openState = {
         this.physics.arcade.enable(player);
         player.angle -= 90;
         player.nextFire = 0;
-        player.fireRate = 200;
+        player.fireRate = 500;
         player.width = 50;
         player.height = 50;
         player.score = 0;
@@ -260,6 +260,8 @@ var openState = {
             if (isKeyDown == false)
                 player.body.velocity.set(0);
         }
+
+        shootButton.isDown = true;
         if (shootButton.isDown) {
             this.fireWeapon();
         }

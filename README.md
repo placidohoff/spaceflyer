@@ -1,5 +1,8 @@
  ..*To deploy to Netlify, used command: git push -u origin --force master:netlify-deploy
 
+ ..*To clone from a specific branch:  $ git clone --single-branch -b netlify-deploy https
+://github.com/hacka-slash/spaceshooter.git
+
  ..*!!** Must create logic to limit the amount of sprites on the screen at one time.. vicous, nasty and ugly lag
 
 ########## Fix-Respawn:
@@ -23,3 +26,5 @@
  ..SpriteCountCheck increments on every gameObjects.add() but we must decrement on everytime the Object is destroyed. Also check where they go off screen to be sure they are 'destroyed()' and the decrement happens. 
 
  ..Within the sprite's 'killThis()' The sprite.kill() or this.destroy() does not stop the sprite from updating and using up memory.. Perhaps an outside function that goes thru all gameObjects nd deletes them by changing them to null?
+
+..
