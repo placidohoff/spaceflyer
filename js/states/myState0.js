@@ -1,4 +1,4 @@
-var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount;
+var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount, nextPowerUp, powerUpRate, moveSpeed, energyBar, stepBarSize, nextPowerUpTimer, powerUpTimerRate, isGotPowerup, powerUpGroup, shipShield, hasShield;
 var gameOptions = {
 
 };
@@ -38,6 +38,20 @@ var openState = {
 
         game.load.image('laserball', 'assets/laserball.png');
 
+        game.load.image('powerup-shield', 'assets/powerups/powerup-shield.png');
+        game.load.image('basic', 'assets/powerups/powerup-basic.png');
+        game.load.image('powerup-bomb', 'assets/powerups/powerup-bomb.png');
+        game.load.image('powerup-rapid', 'assets/powerups/powerup-rapid.png');
+        game.load.image('powerup-speed', 'assets/powerups/powerup-speed.png');
+        game.load.image('powerup-spray', 'assets/powerups/powerup-spray.png');
+
+
+        game.load.image('energybar', 'assets/powerups/energybar.png');
+
+        game.load.image('shipShield', 'assets/powerups/shipShield.png');
+
+        game.load.image('missile', 'assets/powerups/missile.png');
+
     },
     create: function () {
         //alert("hello");
@@ -70,6 +84,14 @@ var openState = {
         player.width = 50;
         player.height = 50;
         player.score = 0;
+        // player.weapon = 'powerup-speed';
+        // //player.weapon == "powerup=speed" ? moveSpeed = 800 : moveSpeed = 400;
+        // if(player.weapon == 'powerup-speed')
+        //     moveSpeed = 800;
+        player.weapon = 'basic';
+        player.fireRate = 500;
+        player.ability = 'none';
+        player.isDead = false;
 
         isKeyDown = false;
 
@@ -151,10 +173,52 @@ var openState = {
         isGameOver = false;
         isWaitingToRespawn = false;
         enemySpriteCount = 0;
+
+        nextPowerUp = 0;
+        powerUpRate = 3000;
+
+        powerUpGroup = game.add.group();
+        powerUpGroup.enableBody = true;
+        powerUpGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        powerUpGroup.setAll('checkWorldBounds', true);
+        powerUpGroup.setAll('outOfBoundsKill', true);
         //numberOfPlayerLives--;
+
+        moveSpeed = 400;
+        if(player.weapon == 'powerup-speed')
+            moveSpeed = 800;
+
+            // energyBar = this.add.sprite(400, 10, "energybar");
+            // energyBar.width = 50;
+            // energyBar.height = 10;
+            // stepBarSize = energyBar.width / 30;
+
+            //let energyMask = this.add.sprite(energyBar.x, energyBar.y, "energybar");
+ 
+            // ...it's not visible...
+            //energyMask.visible = false;
+     
+            // and we assign it as energyBar's mask.
+            //energyBar.mask = new Phaser.Display.Masks.BitmapMask(this, energyMask);
+        nextPowerUpTimer = 0;
+        powerUpTimerRate = 500
+
+        isGotPowerup = false;
+        hasShield = false;
     },
 
-    update: function () {
+    update: function (enemy, shield) {
+
+        if(isGotPowerup){
+            this.timeBarMinus();
+            if(hasShield){
+                shipShield.x = player.x;
+                shipShield.y = player.y;
+            }
+            
+        }
+        this.dropPowerUp();
+        this.spawnEnemy();
 
         //Player Respawn Return To Not Invulnerable:
         /*if(player.y >= player.endPosY)
@@ -171,24 +235,30 @@ var openState = {
         if(!isGameOver){
         text.setText("Score: "+ score);
         //COLLISIONS:
+        if(hasShield){
+            game.physics.arcade.overlap(shipShield, enemyLasers.children, this.shieldHit);    
+            game.physics.arcade.overlap(shipShield, basicEnemies.children, this.shieldHit);    
+        }
         game.physics.arcade.overlap(player, enemyLasers.children, this.playerHit);
         game.physics.arcade.overlap(player, basicEnemies.children, this.playerHit);
         game.physics.arcade.overlap(ufoEnemyGroup.children, lasers.children, this.ufoHit);
         game.physics.arcade.overlap(lasers.children, ufoEnemyGroup.children, this.ufoHit);
         game.physics.arcade.overlap(basicEnemies.children, ufoEnemyGroup.children, this.basicEnemyHit);
         game.physics.arcade.overlap(lasers.children, basicEnemies.children, this.basicEnemyHit);
-
+        
         game.physics.arcade.collide(ufoEnemyGroup.children, lasers.children, this.ufoHit);
         game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
         game.physics.arcade.overlap(lasers.children, bigUfoGroup.children, this.bigUfoHit);
+        game.physics.arcade.overlap(player, powerUpGroup.children, this.getPowerUp);
 
         this.checkEnemiesOffScreen();
 
         //game.physics.arcade.collide(lasers.children, ufoEnemyGroup.children, this.ufoHit);
 
 
-        //keyEventListen();
-        this.spawnEnemy();
+        
+        
+        //this.spawnPowerUp();
 
         //BIG-UFO GROUP:
         for(var i = 0; i < bigUfoGroup.length; i++){
@@ -242,6 +312,20 @@ var openState = {
             }
         }
 
+        //POWERUPS GROUP:
+        for(let i = 0; i < powerUpGroup.children.length; i++){
+            if(powerUpGroup.children[i].alive){
+                //powerUpGroup.children[i].y += powerUpGroup.children[i].body.velocity.y;
+                powerUpGroup.children[i].update();
+                //console.log(powerUpGroup.children)
+                if(powerUpGroup.children[i].y >= game.height + 10){
+                    console.log(powerUpGroup.children)
+                    powerUpGroup.children[i].destroy();
+                }
+                //this.boundsCheck(powerUpGroup.children[i]);
+            }
+        }
+
         //COLLISIONS:
        
         //DEBBUGGING: Seeing how many objects are in my game currently:
@@ -250,7 +334,7 @@ var openState = {
 
         starfield.tilePosition.y += 2;
         this.checkInput();
-        var maxSpeed = 400;
+        var maxSpeed = moveSpeed;
 
         if (stick.isDown) {
             this.physics.arcade.velocityFromRotation(stick.rotation, stick.force * maxSpeed, player.body.velocity);
@@ -266,12 +350,144 @@ var openState = {
             this.fireWeapon();
         }
 
+        //PLAYER CANNOT GO OFFSCREEN:
+        if(player.x <= 0){
+            player.x = 10;
+            player.x += 2;
+        }
+        if(player.x >= game.width){
+            player.x = game.width - 10;
+            player.x -= 2;
+        }
+        if(player.y > game.height){
+            player.y = game.height - 10;
+            player.y -= 2;
+        }
+
         //sprite.x += sprite.body.velocity.x;
         //sprite.y += sprite.body.velocity.y;
         //console.log(sprite.body.velocity.x);
         //this.clearEnemyField();
     }
 
+    },
+    shieldHit: function(enemy, shield){
+        //alert("Yo");
+        var theShield;
+        var theEnemy;
+        if (enemy.sig) {
+            theEnemy = enemy;
+            theShield = shield;
+        } else {
+            theEnemy = shield;
+            theShield = enemy;
+        }
+        theEnemy.loadTexture('explosion_atlas');
+        theEnemy.destroy();
+    },
+    timeBarMinus: function(){
+        //let timer = setTimeout(function(){ energyBar.width -= stepBarSize; clearTimeout(timer) }, 3000);
+        if (game.time.now > nextPowerUpTimer) {
+            nextPowerUpTimer = game.time.now + powerUpTimerRate;
+            energyBar.width -= stepBarSize;
+        }
+        if(energyBar.width <= 0){
+            energyBar.destroy();
+            player.weapon = 'basic';
+            player.ability = 'none';
+            isGotPowerup = false;
+            
+            if(hasShield)
+                shipShield.destroy();
+
+            hasShield = false;
+
+            player.nextFire = 0;
+            player.fireRate = 500;
+            moveSpeed = 400;
+        }
+        
+    },
+    getPowerUp: function(plyr, pwr){
+        if(isGotPowerup){
+            energyBar.destroy();
+            if(hasShield)
+                shipShield.destroy();
+        }
+        isGotPowerup = true;
+        player.weapon = pwr.signiture;
+        player.nextFire = 0;
+        player.fireRate = 500;
+        moveSpeed = 400;
+        if(pwr.signiture == 'powerup-rapid'){
+            player.fireRate = 100;
+            //player.weapon = pwr.signiture;
+        }
+        else if(pwr.signiture == 'powerup-shield'){
+            //change the sprite to the shieldShip. When shieldShip breaks, call breakShield() which will
+             //do the break animation and change the ship sprite back to the original.
+             //player.ability = pwr.signiture;
+             shipShield = game.add.sprite(player.x, player.y, "shipShield");
+             shipShield.anchor.set(0.5,0.5);
+             shipShield.width = 100;
+             shipShield.height = 100;
+             game.physics.arcade.enable(shipShield);
+             hasShield = true;
+
+
+        }
+        else if(pwr.signiture == "powerup-speed"){
+            moveSpeed = 800;
+            player.fireRate = 150;
+        }
+        //alert(power);
+        pwr.destroy();
+
+        energyBar = game.add.sprite(playerLives[0].x, playerLives[0].y + playerLives[0].height, "energybar");
+        energyBar.width = 50;
+        energyBar.height = 10;
+        stepBarSize = energyBar.width / 30;
+        //alert(power);
+    },
+    dropPowerUp: function() {
+        //Powerups we will have:
+            //Shield
+            //Spray
+            //Bomb
+            //Rapid-Fire Rate
+            //Speed
+
+        //Would be more neat if we put all the string names of the powerups into an array, and assign
+         //variable name that way instead of the method used here buuuuut.....
+            
+        if(game.time.now > nextPowerUp){
+            nextPowerUp = game.time.now + powerUpRate;
+            let randomPick = Math.floor(Math.random() * 6);
+            let name;
+
+            if(randomPick == 0)
+                name = "powerup-shield";
+            else if(randomPick == 1)
+                name = "powerup-spray"
+            else if(randomPick == 2){
+                //name = "powerup-bomb"
+                name = "basic"
+            }
+            else if(randomPick == 3)
+                name = "powerup-rapid"
+            else if(randomPick == 4)
+                name = "basic";
+            else    
+                name="powerup-speed";
+
+            
+            let x = Math.floor(Math.random() * game.width);
+            //alert(x);
+            let powerUp = new PowerUp(this.game, x, -10, name);
+            console.log(powerUp);
+            powerUpGroup.add(powerUp);
+            console.log(powerUpGroup);
+        }
     },
 
     spriteCountCheck: function(){
@@ -342,7 +558,7 @@ var openState = {
             obj.destroy();
         }*/
 
-        if(obj.sig = "bigUfo"){
+        if(obj.sig == "bigUfo"){
             if(obj.x > game.width || obj.x < 0){
                 obj.destroy();
             }
@@ -435,6 +651,7 @@ var openState = {
         alert("new");
     },
     playerHit: function () {
+        player.isDead = true;
         console.log("hit");
         // game.this.checkInput();
         player.loadTexture('playerexplosion_atlas');
@@ -499,6 +716,16 @@ var openState = {
         
         //numberOfPlayerLives--;
 
+        if(isGotPowerup){
+            isGotPowerup = false;
+            energyBar.destroy();
+            if(hasShield){
+                shipShield.destroy();
+            }
+        }
+        //isGotPowerup = false;
+        player.weapon = 'basic';
+        player.ability = 'none';
     },
     respawnPlayer: function(coordX, coordY){
         respawnText.destroy();
@@ -520,9 +747,11 @@ var openState = {
 
         player.angle -= 90;
         player.nextFire = 0;
-        player.fireRate = 200;
+        player.fireRate = 500;
         player.width = 50;
         player.height = 50;
+        player.isDead = false;
+        player.weapon = 'basic';
 
         
 
@@ -815,20 +1044,23 @@ var openState = {
 
         if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                player.body.velocity.x = 400;
-                player.body.velocity.y = 400;
+                
+                    player.body.velocity.x = moveSpeed;
+                    player.body.velocity.y = moveSpeed;
+                
+                
             }
             else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                player.body.velocity.x = 400;
-                player.body.velocity.y = -400;
+                player.body.velocity.x = moveSpeed;
+                player.body.velocity.y = -moveSpeed;
             }
             else {
 
-                if (player.body.velocity.x == -400) {
+                if (player.body.velocity.x == -moveSpeed) {
                     player.body.velocity.x *= -1;
                     player.body.velocity.x = 0;
                 } else {
-                    player.body.velocity.x = 400;
+                    player.body.velocity.x = moveSpeed;
                     player.body.velocity.y = 0;
                 }
             }
@@ -840,16 +1072,16 @@ var openState = {
                 //if(sprite.body.velocity.x == 400){
                 //sprite.body.velocity.x *= -1;
                 //}
-                player.body.velocity.x = -400;
-                player.body.velocity.y = 400;
+                player.body.velocity.x = -moveSpeed;
+                player.body.velocity.y = moveSpeed;
             }
             else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
 
-                player.body.velocity.x = 400;
-                player.body.velocity.y = 400;
+                player.body.velocity.x = moveSpeed;
+                player.body.velocity.y = moveSpeed;
             }
             else {
-                player.body.velocity.y = 400;
+                player.body.velocity.y = moveSpeed;
                 player.body.velocity.x = 0;
             }
             isKeyDown = true;
@@ -859,18 +1091,18 @@ var openState = {
         }*/
         else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                player.body.velocity.x = -400;
-                player.body.velocity.y = -400;
+                player.body.velocity.x = -moveSpeed;
+                player.body.velocity.y = -moveSpeed;
             }
             else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                player.body.velocity.x = -400;
-                player.body.velocity.y = 400;
+                player.body.velocity.x = -moveSpeed;
+                player.body.velocity.y = moveSpeed;
             } else {
-                if (player.body.velocity.x == 400) {
+                if (player.body.velocity.x == moveSpeed) {
                     player.body.velocity.x *= -1;
                     player.body.velocity.x = 0;
                 } else {
-                    player.body.velocity.x = -400;
+                    player.body.velocity.x = -moveSpeed;
                     player.body.velocity.y = 0;
                 }
             }
@@ -878,16 +1110,16 @@ var openState = {
         }
         else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
             if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                player.body.velocity.x = -400;
-                player.body.velocity.y = -400;
+                player.body.velocity.x = -moveSpeed;
+                player.body.velocity.y = -moveSpeed;
             }
             if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                player.body.velocity.x = 400;
-                player.body.velocity.y = -400;
+                player.body.velocity.x = moveSpeed;
+                player.body.velocity.y = -moveSpeed;
             }
             else {
                 player.body.velocity.x = 0;
-                player.body.velocity.y = -400;
+                player.body.velocity.y = -moveSpeed;
                 isKeyDown = true;
             }
         }
@@ -900,21 +1132,134 @@ var openState = {
     },
     fireWeapon: function () {
         //console.log("hello");
-        if (game.time.now > player.nextFire) {
-            player.nextFire = game.time.now + player.fireRate;
-            var laser = this.add.sprite(400, game.height, 'laser');
-            laser.enableBody = true;
-            laser.physicsBodyType = Phaser.Physics.ARCADE;
-            game.physics.arcade.enableBody(laser);
-            laser.reset(player.x - 4, player.y - (player.height / 2));
-            laser.body.velocity.y = -10;
-            laser.sig2 = "playerLaser";
-            laser.laserType = "basicLaser";
-            laser.damage = 1;
-            lasers.add(laser);
-            //totalObjects.add(laser);
-            //laser.angle += 90;
-            //laser.width += 50;
+        //Powerups we will have:
+            //Shield
+            //Spray
+            //Bomb
+            //Rapid-Fire Rate
+            //Speed
+        if(!player.isDead){
+            if (game.time.now > player.nextFire) {
+                player.nextFire = game.time.now + player.fireRate;
+
+                if(player.weapon == 'basic'){
+                    var laser = this.add.sprite(400, game.height, 'laser');
+                    laser.enableBody = true;
+                    laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    game.physics.arcade.enableBody(laser);
+                    laser.reset(player.x - 4, player.y - (player.height / 2));
+                    laser.body.velocity.y = -10;
+                    laser.sig2 = "playerLaser";
+                    laser.laserType = "basicLaser";
+                    laser.damage = 1;
+                    lasers.add(laser);
+                    //totalObjects.add(laser);
+                    //laser.angle += 90;
+                    //laser.width += 50;
+                }
+            else if(player.weapon == 'powerup-spray'){
+                    for(let laserNum = 0; laserNum < 7; laserNum++){
+                        var laser = this.add.sprite(400, game.height, 'laser');
+                        laser.enableBody = true;
+                        laser.physicsBodyType = Phaser.Physics.ARCADE;
+                        game.physics.arcade.enableBody(laser);
+                        let laserX;
+                        if(laserNum == 0){
+                            laserX = (player.x - 4) - 30
+                        }
+                        else if(laserNum == 1){
+                            laserX = (player.x - 4) - 10
+                        }
+                        else if(laserNum == 2){
+                            laserX = (player.x - 4) 
+                        }
+                        else if(laserNum == 3){
+                            laserX = (player.x - 4) + 10
+                        }
+                        else if(laserNum == 4){
+                            laserX = (player.x - 4) + 30
+                        }
+                        else if(laserNum == 5){
+                            laserX = (player.x - 4) - 50
+                        }
+                        else if(laserNum == 6){
+                            laserX = (player.x - 4) + 50
+                        }
+                        laser.reset(laserX, player.y - (player.height / 2));
+                        laser.body.velocity.y = -10;
+                        laser.sig2 = "playerLaser";
+                        laser.laserType = "basicLaser";
+                        laser.damage = 1;
+                        lasers.add(laser);
+                        //totalObjects.add(laser);
+                        //laser.angle += 90;
+                        //laser.width += 50;
+                    }
+                }
+
+                else if(player.weapon == 'powerup-bomb'){
+                    var missile = this.add.sprite(400, game.height, 'missile');
+                    missile.angle -= 90
+                    laser.enableBody = true;
+                    laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    game.physics.arcade.enableBody(laser);
+                    laser.reset(player.x - 4, player.y - (player.height / 2));
+                    laser.body.velocity.y = -10;
+                    laser.sig2 = "playerLaser";
+                    laser.laserType = "basicLaser";
+                    laser.damage = 1;
+                    lasers.add(laser);
+                    //totalObjects.add(laser);
+                    //laser.angle += 90;
+                    //laser.width += 50;
+                }
+
+                else if(player.weapon == 'powerup-rapid'){
+                    var laser = this.add.sprite(400, game.height, 'laser');
+                    laser.enableBody = true;
+                    laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    game.physics.arcade.enableBody(laser);
+                    laser.reset(player.x - 4, player.y - (player.height / 2));
+                    laser.body.velocity.y = -10;
+                    laser.sig2 = "playerLaser";
+                    laser.laserType = "basicLaser";
+                    laser.damage = 1;
+                    lasers.add(laser);
+                    //totalObjects.add(laser);
+                    //laser.angle += 90;
+                    //laser.width += 50;
+                }
+                else if(player.weapon == 'powerup-shield'){
+                    var laser = this.add.sprite(400, game.height, 'laser');
+                    laser.enableBody = true;
+                    laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    game.physics.arcade.enableBody(laser);
+                    laser.reset(player.x - 4, player.y - (player.height / 2));
+                    laser.body.velocity.y = -10;
+                    laser.sig2 = "playerLaser";
+                    laser.laserType = "basicLaser";
+                    laser.damage = 1;
+                    lasers.add(laser);
+                    //totalObjects.add(laser);
+                    //laser.angle += 90;
+                    //laser.width += 50;
+                }
+                else if(player.weapon == 'powerup-speed'){
+                    var laser = this.add.sprite(400, game.height, 'laser');
+                    laser.enableBody = true;
+                    laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    game.physics.arcade.enableBody(laser);
+                    laser.reset(player.x - 4, player.y - (player.height / 2));
+                    laser.body.velocity.y = -10;
+                    laser.sig2 = "playerLaser";
+                    laser.laserType = "basicLaser";
+                    laser.damage = 1;
+                    lasers.add(laser);
+                    //totalObjects.add(laser);
+                    //laser.angle += 90;
+                    //laser.width += 50;
+                }
+            }
         }
     },
     gameOver: function (){
