@@ -1,5 +1,5 @@
 //const mongoose = require('mongoose');
-var game = new Phaser.Game('100%','100%', Phaser.Auto, 'gameArea');
+var game = new Phaser.Game(800,600, Phaser.Auto, 'gameArea');
 
 game.state.add('open', openState);
 game.state.add('mainMenu', mainMenu);

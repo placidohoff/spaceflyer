@@ -11,6 +11,8 @@ var openState = {
 
         this.game.renderer.renderSession.roundPixels = true;
         this.physics.startSystem(Phaser.Physics.ARCADE);
+        // game.width = 400;
+        // game.height = 600;
         //this.sprite;
 
     },
@@ -175,7 +177,7 @@ var openState = {
         enemySpriteCount = 0;
 
         nextPowerUp = 0;
-        powerUpRate = 3000;
+        powerUpRate = 6000;
 
         powerUpGroup = game.add.group();
         powerUpGroup.enableBody = true;
@@ -319,7 +321,7 @@ var openState = {
                 powerUpGroup.children[i].update();
                 //console.log(powerUpGroup.children)
                 if(powerUpGroup.children[i].y >= game.height + 10){
-                    console.log(powerUpGroup.children)
+                    //console.log(powerUpGroup.children)
                     powerUpGroup.children[i].destroy();
                 }
                 //this.boundsCheck(powerUpGroup.children[i]);
