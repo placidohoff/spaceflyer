@@ -65,12 +65,12 @@ var openState = {
 
         pad = game.plugins.add(Phaser.VirtualJoystick);
         stick = pad.addStick(600, 300, 150, 'arcade');
-        stick.alignBottomLeft();
+        stick.alignBottomRight();
 
-        shootButton = pad.addButton(200, 200, 'arcade', 'button1-up', 'button1-down');
-        shootButton.alignBottomRight();
+        shootButton = pad.addButton(game.width + 60, game.height + 60, 'arcade', 'button1-up', 'button1-down');
+        //shootButton.alignBottomRight();
         //shootButton.y -= 200;
-        shootButton.onDown.add(this.fireWeapon, this);
+        //shootButton.onDown.add(this.fireWeapon, this);
         //this.add.tween(stick).to( { posX: 140, posY: 460 }, 2000, "Back.easeOut", true, 500);
         //alert(shootButton);
         //alert(stick);
@@ -309,8 +309,8 @@ var openState = {
             }
             //this.boundsCheck(lasers.children[i]);
             if (lasers.children[i].y < 0) {
-                //lasers.children[i].kill();
-                this.boundsCheck(lasers.children[i]);
+                lasers.children[i].destroy();
+                //this.boundsCheck(lasers.children[i]);
             }
         }
 
@@ -322,6 +322,7 @@ var openState = {
                 //console.log(powerUpGroup.children)
                 if(powerUpGroup.children[i].y >= game.height + 10){
                     //console.log(powerUpGroup.children)
+                    //this.boundsCheck(powerUpGroup.children[i])
                     powerUpGroup.children[i].destroy();
                 }
                 //this.boundsCheck(powerUpGroup.children[i]);
