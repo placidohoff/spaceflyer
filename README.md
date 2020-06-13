@@ -53,3 +53,20 @@ PowerUps
 
  ###################
  Fix Off-Screen:
+
+
+
+
+ ###################
+ Game-Flow:
+
+  ..User must have a certain number of points first before certain enemies/bosses can showup. 
+  ..1. First Level: Only Basic enemies/astroids flying down. Every now and then will be a large astroid will come down.
+        ..*There will be a 'level' variable/integer that will keep track of what type of enemies to spawn. 
+  
+  ..*For each level's enemy spawn logic, I simply copy and pasted the logic of level one. I want to get the app launched into the store, and make the other levels as an update. But for now...
+        ..*At the top of 'update()', I have the if/else for the player score. Its supposed to go levelUp as the score goes higher, but each if/else I have the end result be 'enemyLevel = 0' instead of incriment.
+
+
+
+..*!* Great Article on Window.innerHeight/Width to have game look correct on screens.. However, I do think my game looks best in landscape view.

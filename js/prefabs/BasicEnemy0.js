@@ -4,6 +4,9 @@ var BasicEnemy0 = function(game, x, y, key,){
     Phaser.Sprite.call(this, game, x, y, key);
     this.sig = "fallingObject";
 
+    //added for collision with laser, a unique identifyyer:
+    this.uid = this.game.rnd.integerInRange(0, 20000)
+
     this.game.physics.arcade.enableBody(this);
     this.checkWorldBounds = true;
     this.onOutOfBoundsKill = true;
@@ -16,7 +19,7 @@ var BasicEnemy0 = function(game, x, y, key,){
 
     */
    this.y = 0 - this.height;
-   var randomOriginNum = this.game.rnd.integerInRange(0,2);
+   var randomOriginNum = this.game.rnd.integerInRange(0,5);
    //console.log(randomOriginNum);
    /*
    (enemy.origin == left)
@@ -24,33 +27,55 @@ var BasicEnemy0 = function(game, x, y, key,){
     this.y = player.y - 1500;
    */
    if(randomOriginNum == 0){
-    this.origin = "directabove";
+        this.origin = "directAbove";
    }else if(randomOriginNum == 1){
-        this.origin = "left";
+        this.origin = "topLeft";
    }
    else if(randomOriginNum == 2){
+        this.origin = "left";
+   }
+   else if(randomOriginNum == 3){
         this.origin = "right";
    }
+   else if(randomOriginNum == 4){
+        this.origin = "topRight";
+   }
+   
    //this.origin = "directabove";
-   if(this.origin == "directabove"){
+   if(this.origin == "directAbove"){
        this.x = player.x;
        this.body.velocity.x = 0;
        this.body.velocity.y = 500;
        this.direction = "down";
-   }else if(this.origin == "left"){
+   }else if(this.origin == "topLeft"){
         //this.x = player.x - 500;
         this.x = player.x - 1500;
         this.y = player.y - 1500;
         this.body.velocity.x = 500;
         this.body.velocity.y = 500;
+        this.direction = "downRight";
+   }else if(this.origin == "left"){
+        //this.x = player.x - 500;
+        this.x = player.x - 1500;
+        this.y = player.y;
+        this.body.velocity.x = 500;
+        this.body.velocity.y = 0;
         this.direction = "right";
-   }else if(this.origin == "right"){
+    }
+   else if(this.origin == "right"){
+        this.x = player.x + 1500;
+        this.y = player.y;
+        this.body.velocity.x = -500;
+        this.body.velocity.y = 0;
+        this.direction = "left";
+   }else if(this.origin == "topRight"){
+        //this.x = player.x - 500;
         this.x = player.x + 1500;
         this.y = player.y - 1500;
         this.body.velocity.x = -500;
         this.body.velocity.y = 500;
-        this.direction = "left";
-   }
+        this.direction = "downLeft";
+    }
 
    this.sig = this.game.rnd.integerInRange(0,1000);
    this.score = 1;
@@ -74,7 +99,7 @@ BasicEnemy0.prototype.update = function(){
 
 BasicEnemy0.prototype.killThis = function(){
     this.isHit = true;
-    this.body.velocity.x = 0;
+    //this.body.velocity.x = 0;
     this.body.enable = false;
     //this.game.physics.arcade.enableBody = false;
     //Phaser.Sprite.call(this, game, this.x, this.y, 'explosion_atlas');
@@ -84,7 +109,7 @@ BasicEnemy0.prototype.killThis = function(){
     this.animations.add('explode', Phaser.Animation.generateFrameNames('explo', 0, 8), 5, true);
 
     this.animations.play('explode', 12, false);
-    this.body.velocity.y = 0;
+    //this.body.velocity.y = 0;
 
     this.animations.currentAnim.onComplete.add(function (){
         this.body = null;

@@ -1,4 +1,4 @@
-var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount, nextPowerUp, powerUpRate, moveSpeed, energyBar, stepBarSize, nextPowerUpTimer, powerUpTimerRate, isGotPowerup, powerUpGroup, shipShield, hasShield;
+var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount, nextPowerUp, powerUpRate, moveSpeed, energyBar, stepBarSize, nextPowerUpTimer, powerUpTimerRate, isGotPowerup, powerUpGroup, shipShield, hasShield, enemyLevel;
 var gameOptions = {
 
 };
@@ -207,9 +207,20 @@ var openState = {
 
         isGotPowerup = false;
         hasShield = false;
+
+        enemyLevel = 0;
     },
 
     update: function (enemy, shield) {
+
+        if(score < 15)
+            enemyLevel = 0;
+        else if(score > 15 && score < 30 )
+            enemyLevel = 0;
+        else if(score > 30 && score < 45 )
+            enemyLevel = 0;
+        else
+            enemyLevel = 0;
 
         if(isGotPowerup){
             this.timeBarMinus();
@@ -385,8 +396,10 @@ var openState = {
             theEnemy = shield;
             theShield = enemy;
         }
-        theEnemy.loadTexture('explosion_atlas');
-        theEnemy.destroy();
+        //theEnemy.loadTexture('explosion_atlas');
+        //theEnemy.destroy();
+        score += theEnemy.score;
+        theEnemy.killThis();
     },
     timeBarMinus: function(){
         //let timer = setTimeout(function(){ energyBar.width -= stepBarSize; clearTimeout(timer) }, 3000);
@@ -483,7 +496,7 @@ var openState = {
             else    
                 name="powerup-speed";
 
-            
+
             let x = Math.floor(Math.random() * game.width);
             //alert(x);
             let powerUp = new PowerUp(this.game, x, -10, name);
@@ -638,7 +651,7 @@ var openState = {
         }
         var target;
         for (var i = 0; i < basicEnemies.children.length; i++) {
-            if (theUfo.sig == basicEnemies.children[i].sig) {
+            if (theUfo.uid == basicEnemies.children[i].uid) {
                 target = basicEnemies.children[i];
                 //ufoEnemyGroup.children[i].killThis();
                 //alert(ufoEnemyGroup.children[i]);
@@ -820,41 +833,63 @@ var openState = {
         //Before spawning more enemies, should do a double check to kill
         //anything offscreen to avoid lag
         //console.log("hello");
-        if (game.time.now > nextEnemy) {
-            var enemy;
-            nextEnemy = game.time.now + enemyRate;
-            var nextEnemyNum = this.game.rnd.integerInRange(0, 3);
+        if(enemyLevel == -1){
+            if (game.time.now > nextEnemy) {
+                var enemy;
+                nextEnemy = game.time.now + enemyRate;
+                var nextEnemyNum = this.game.rnd.integerInRange(0, 3);
 
-            //DEBUGGING: ONLY SPAWINING UFO-FORMATIONS:
-                //nextEnemyNum = 1;
-            if (nextEnemyNum == 0) {
-                enemy = new BasicEnemy0(this.game, 0, 0);
-                if(this.spriteCountCheck()){
-                    basicEnemies.add(enemy);
-                }
-                //totalObjects.add(enemy);
-            } else if (nextEnemyNum == 1 || nextEnemyNum == 3) {
-                var howMany = this.game.rnd.integerInRange(0, 6);
-                var whichType = this.game.rnd.integerInRange(0, 1);
                 //DEBUGGING: ONLY SPAWINING UFO-FORMATIONS:
-                // whichType = 1;
-                if (whichType == 0) {
-                    this.spawnMultipleEnemies('ufoEnemy', howMany, {x:0,y:0});
-                } else {
-                    this.spawnMultipleEnemies('ufoEnemyFormation', howMany, {x:0,y:0});
-                }
-            }else if(nextEnemyNum == 2){
-                if(bigUfoGroup.length < 1){
-                    enemy = new BigUfo(this.game, 50, 50);
-                    //enemy.body.velocity.y = 100;
-                    console.log(enemy);
-                    //game.add.sprite(200, 200, 'bigufo');
+                    //nextEnemyNum = 1;
+                if (nextEnemyNum == 0) {
+                    enemy = new BasicEnemy0(this.game, 0, 0);
                     if(this.spriteCountCheck()){
-                        bigUfoGroup.add(enemy);
+                        basicEnemies.add(enemy);
+                    }
+                    //totalObjects.add(enemy);
+                } else if (nextEnemyNum == 1 || nextEnemyNum == 3) {
+                    var howMany = this.game.rnd.integerInRange(0, 6);
+                    var whichType = this.game.rnd.integerInRange(0, 1);
+                    //DEBUGGING: ONLY SPAWINING UFO-FORMATIONS:
+                    // whichType = 1;
+                    if (whichType == 0) {
+                        this.spawnMultipleEnemies('ufoEnemy', howMany, {x:0,y:0});
+                    } else {
+                        this.spawnMultipleEnemies('ufoEnemyFormation', howMany, {x:0,y:0});
+                    }
+                }else if(nextEnemyNum == 2){
+                    if(bigUfoGroup.length < 1){
+                        enemy = new BigUfo(this.game, 50, 50);
+                        //enemy.body.velocity.y = 100;
+                        console.log(enemy);
+                        //game.add.sprite(200, 200, 'bigufo');
+                        if(this.spriteCountCheck()){
+                            bigUfoGroup.add(enemy);
+                        }
                     }
                 }
-            }
 
+            }
+        }
+        //TODO: These should all be basic enemies/astroids that come flying in from the top or the sides
+            //either one at a time or in groups of three.
+
+        //One astroid flying in from a random direction.
+        else if(enemyLevel == 0){
+            if(game.time.now > nextEnemy){
+                let enemy;
+                nextEnemy = game.time.now + enemyRate;
+                    let randomNumber = this.game.rnd.integerInRange(0, 100)
+                    if(randomNumber < 75){
+                        enemy = new BasicEnemy0(this.game, 0, 0);
+                        if(this.spriteCountCheck()){
+                            basicEnemies.add(enemy);
+                        }
+                    }
+                    else
+                        this.spawnMultipleEnemies('basicEnemy', 0, 0)
+
+            } 
         }
     },
     spawnMultipleEnemies: function (type, howMany, source) {
@@ -1034,6 +1069,83 @@ var openState = {
                 //totalObjects.add(enemy);
 
                 //}
+            }
+        }
+        if(type == 'basicEnemy'){
+            let configs = {
+                space: 40,
+                startLeft: -15,
+                startRight: game.width + 15
+            };
+            //alert('hello')
+            let originalEnemy = new BasicEnemy0(this.game, 0, 0)
+            // let centerOriginX = originalEnemy.x;
+            // let originY = originalEnemy.y;
+            if(originalEnemy.origin == 'directAbove'){
+                for(let i = 0; i < 3; i++){
+                   //let enemy = new BasicEnemy0(this.game, centerOriginX += 10 * i, originY )
+                   let newEnemy = new BasicEnemy0(this.game, 0, 0)
+                   newEnemy.body.velocity = originalEnemy.body.velocity;
+                   newEnemy.origin = originalEnemy.origin;
+                   newEnemy.direction = originalEnemy.direction;
+                   newEnemy.x = originalEnemy.x + configs.space * i
+                   newEnemy.y = originalEnemy.y;
+                   basicEnemies.add(newEnemy)
+                
+                }
+
+            }
+            else if(originalEnemy.origin == "topLeft"){
+                for(let i = 0; i < 2; i++){
+                    //let enemy = new BasicEnemy0(this.game, centerOriginX += 10 * i, originY )
+                    let newEnemy = new BasicEnemy0(this.game, 0, 0)
+                    newEnemy.body.velocity = originalEnemy.body.velocity;
+                    newEnemy.origin = originalEnemy.origin;
+                    newEnemy.direction = originalEnemy.direction;
+                    newEnemy.x = originalEnemy.x + configs.space * i
+                    newEnemy.y = originalEnemy.y;
+                    basicEnemies.add(newEnemy)
+                 
+                 }                
+            }
+            else if(originalEnemy.origin == 'left'){
+                for(let i = 0; i < 3; i++){
+                    let newEnemy = new BasicEnemy0(this.game, 0, 0)
+                    newEnemy.body.velocity = originalEnemy.body.velocity;
+                    newEnemy.origin = originalEnemy.origin;
+                    newEnemy.direction = originalEnemy.direction;
+                    newEnemy.x = configs.startLeft
+                    newEnemy.y = originalEnemy.y + configs.space * i;
+                    basicEnemies.add(newEnemy)
+                
+                }
+
+            }
+            else if(originalEnemy.origin == 'right'){
+                for(let i = 0; i < 3; i++){
+                    let newEnemy = new BasicEnemy0(this.game, 0, 0)
+                    newEnemy.body.velocity = originalEnemy.body.velocity;
+                    newEnemy.origin = originalEnemy.origin;
+                    newEnemy.direction = originalEnemy.direction;
+                    newEnemy.x = configs.startRight;
+                    newEnemy.y = originalEnemy.y + configs.space * i;
+                    basicEnemies.add(newEnemy)
+                
+                }
+
+            }
+            else if(originalEnemy.origin == "topRight"){
+                for(let i = 0; i < 2; i++){
+                    //let enemy = new BasicEnemy0(this.game, centerOriginX += 10 * i, originY )
+                    let newEnemy = new BasicEnemy0(this.game, 0, 0)
+                    newEnemy.body.velocity = originalEnemy.body.velocity;
+                    newEnemy.origin = originalEnemy.origin;
+                    newEnemy.direction = originalEnemy.direction;
+                    newEnemy.x = originalEnemy.x + configs.space * i
+                    newEnemy.y = originalEnemy.y;
+                    basicEnemies.add(newEnemy)
+                 
+                 }
             }
         }
 
@@ -1265,6 +1377,17 @@ var openState = {
             }
         }
     },
+    headsOrTales: function(){
+        let randomNum = Math.floor(Math.random() * 10)
+        let flag;
+        if(randomNum % 2 == 0)
+            flag = true
+        else    
+            flag = false
+
+        console.log(flag)
+        return flag
+    },
     gameOver: function (){
         isGameOver = true;
         player.body.enable = false;
@@ -1279,7 +1402,7 @@ var openState = {
         var over = game.add.tween(text).to( { alpha: 1 }, 3000, "Linear", true);
         over.onComplete.add(doSomething, this);function doSomething () { game.state.start('gameOver',true, false, score);}
         
-    }
+    },
 
 };
 
