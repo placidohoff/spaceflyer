@@ -1,8 +1,23 @@
-var BasicEnemy0 = function(game, x, y, key,){
-    key = "basicenmy0";
-    //game.add.sprite(400, 200, 'ship');
-    Phaser.Sprite.call(this, game, x, y, key);
+var resolveTextureConfig = function(config, fallbackKey) {
+    if (typeof config === 'string') {
+        return { key: config };
+    }
+
+    config = config || {};
+
+    return {
+        key: config.key || fallbackKey,
+        frame: config.frame,
+        scale: config.scale || 1.4
+    };
+};
+
+var BasicEnemy0 = function(game, x, y, enemyConfig){
+    var textureConfig = resolveTextureConfig(enemyConfig, 'basicenmy0');
+
+    Phaser.Sprite.call(this, game, x, y, textureConfig.key, textureConfig.frame);
     this.sig = "fallingObject";
+    this.scale.setTo(0.7 * textureConfig.scale, 0.7 * textureConfig.scale);
 
     //added for collision with laser, a unique identifyyer:
     this.uid = this.game.rnd.integerInRange(0, 20000)
