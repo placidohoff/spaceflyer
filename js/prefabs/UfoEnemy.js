@@ -1,9 +1,23 @@
 var name = "bob";
 var num = 5;
+var resolveTextureConfig = function(config, fallbackKey) {
+    if (typeof config === 'string') {
+        return { key: config };
+    }
+
+    config = config || {};
+
+    return {
+        key: config.key || fallbackKey,
+        frame: config.frame,
+        scale: config.scale || 1
+    };
+};
+
 var UfoEnemy = function(info){
-    //1. Add sprite to the game and apply physics: 
-    var key = "ufo";
-    Phaser.Sprite.call(this, game, info.posX, info.posY, key);
+    //1. Add sprite to the game and apply physics:
+    var textureConfig = resolveTextureConfig(info.image, 'ufo');
+    Phaser.Sprite.call(this, game, info.posX, info.posY, textureConfig.key, textureConfig.frame);
     this.game.physics.arcade.enableBody(this);
     this.checkWorldBounds = true;
     this.onOutOfBoundsKill = true;

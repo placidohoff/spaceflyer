@@ -1,4 +1,4 @@
-var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount, nextPowerUp, powerUpRate, moveSpeed, energyBar, stepBarSize, nextPowerUpTimer, powerUpTimerRate, isGotPowerup, powerUpGroup, shipShield, hasShield, enemyLevel;
+var player, isKeyDown, starfield, width, height, bullets, shootButton, basic, basicEnemies, nextEnemy, enemyRate, enemyLasers, nextMultipleEnemy, multipleEnemyRate, score, text, bigUfoGroup, playerLives, numberOfPlayerLives, gameOverText, isGameOver, isWaitingToRespawn, playerHitTimeOut, respawnText, enemySpriteCount, nextPowerUp, powerUpRate, moveSpeed, energyBar, stepBarSize, nextPowerUpTimer, powerUpTimerRate, isGotPowerup, powerUpGroup, shipShield, hasShield, enemyLevel, enemyVariantKeys, currentRandomEnemyKey;
 var gameOptions = {
 
 };
@@ -28,7 +28,10 @@ var openState = {
 
         //var sprite;
         game.load.image('basicenmy0', 'assets/spritesheets/enemy/basicenemy0.png');
-        game.load.image('ufo', 'assets/spritesheets/enemy/ufoenemy.png')
+        game.load.image('ufo', 'assets/spritesheets/enemy/ufoenemy.png');
+        game.load.image('alien', 'assets/spritesheets/enemy/aliens.png');
+        game.load.image('enemyspacesprites', 'assets/spritesheets/enemy/enemyspacesprites.png');
+        game.load.image('saucer', 'assets/spritesheets/enemy/ships_saucer_0.png');
 
         game.load.atlas('explosion_atlas', 'assets/spritesheets/explosions/explosionsheet.png', 'assets/spritesheets/explosions/explosionjson.json');
         game.load.atlas('playerexplosion_atlas', 'assets/spritesheets/explosions/explosionsplayer.png', 'assets/spritesheets/explosions/explosionsplayer.json');
@@ -208,7 +211,11 @@ var openState = {
         isGotPowerup = false;
         hasShield = false;
 
-        enemyLevel = 0;
+        enemyLevel = -1;
+    },
+
+    getRandomEnemySpawnDelay: function () {
+        return this.game.rnd.integerInRange(1200, 5000);
     },
 
     update: function (enemy, shield) {
@@ -878,18 +885,19 @@ var openState = {
         else if(enemyLevel == 0){
             if(game.time.now > nextEnemy){
                 let enemy;
-                nextEnemy = game.time.now + enemyRate;
-                    let randomNumber = this.game.rnd.integerInRange(0, 100)
-                    if(randomNumber < 75){
-                        enemy = new BasicEnemy0(this.game, 0, 0);
-                        if(this.spriteCountCheck()){
-                            basicEnemies.add(enemy);
-                        }
-                    }
-                    else
-                        this.spawnMultipleEnemies('basicEnemy', 0, 0)
+                nextEnemy = game.time.now + this.getRandomEnemySpawnDelay();
+                var randomNumber = this.game.rnd.integerInRange(0, 100);
 
-            } 
+                if(randomNumber < 75){
+                    enemy = new BasicEnemy0(this.game, 0, 0, { key: 'basicenmy0' });
+                    if(this.spriteCountCheck()){
+                        basicEnemies.add(enemy);
+                    }
+                }
+                else {
+                    this.spawnMultipleEnemies('basicEnemy', 0, 0);
+                }
+            }
         }
     },
     spawnMultipleEnemies: function (type, howMany, source) {
